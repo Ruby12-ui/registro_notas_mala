@@ -1,0 +1,67 @@
+<div class="dashboard">
+
+  <header>
+
+    <div>
+
+      <h1>
+        Panel del Estudiante
+      </h1>
+
+      <p>
+        Consulta académica
+      </p>
+
+    </div>
+
+    <button
+      (click)="cerrarSesion()"
+    >
+      Cerrar sesión
+    </button>
+
+  </header>
+
+  <main>
+
+    <div
+      class="card"
+      (click)="irNotas()"
+    >
+
+      <span>
+        📝
+      </span>
+
+      <h2>
+        Mis notas
+      </h2>
+
+      <p>
+        Consultar calificaciones
+      </p>
+
+    </div>
+
+    <div
+      class="card"
+      (click)="irAsistencias()"
+    >
+
+      <span>
+        📋
+      </span>
+
+      <h2>
+        Mis asistencias
+      </h2>
+
+      <p>
+        Consultar asistencias
+      </p>
+
+    </div>
+
+  </main>
+
+</div>

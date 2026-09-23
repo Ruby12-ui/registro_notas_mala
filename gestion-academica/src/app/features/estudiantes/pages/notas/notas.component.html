@@ -1,0 +1,45 @@
+<div class="contenedor">
+
+  <div class="cabecera">
+    <div>
+      <h1>📝 Mis notas</h1>
+      <p>Consulta de calificaciones</p>
+    </div>
+
+    <button class="btn-volver" (click)="volver()">
+      ← Volver
+    </button>
+  </div>
+
+  <div class="card">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Periodo</th>
+          <th>Nota</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (nota of notas; track nota.id) {
+          <tr>
+            <td>{{ nota.curso }}</td>
+            <td>{{ nota.periodo }}</td>
+            <td>
+              <span
+                class="nota"
+                [class.aprobado]="nota.nota >= 11"
+                [class.desaprobado]="nota.nota < 11"
+              >
+                {{ nota.nota }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  </div>
+</div>

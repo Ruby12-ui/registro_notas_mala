@@ -1,0 +1,86 @@
+<div class="dashboard">
+
+  <header>
+
+    <div>
+
+      <h1>
+        Panel del Profesor
+      </h1>
+
+      <p>
+        Gestión de notas y asistencias
+      </p>
+
+    </div>
+
+    <button
+      (click)="cerrarSesion()"
+    >
+      Cerrar sesión
+    </button>
+
+  </header>
+
+  <main>
+
+    <div
+      class="card"
+      (click)="irCursos()"
+    >
+
+      <span>
+        📚
+      </span>
+
+      <h2>
+        Mis cursos
+      </h2>
+
+      <p>
+        Consultar cursos asignados
+      </p>
+
+    </div>
+
+    <div
+      class="card"
+      (click)="irNotas()"
+    >
+
+      <span>
+        📝
+      </span>
+
+      <h2>
+        Registrar notas
+      </h2>
+
+      <p>
+        Registrar calificaciones
+      </p>
+
+    </div>
+
+    <div
+      class="card"
+      (click)="irAsistencia()"
+    >
+
+      <span>
+        📋
+      </span>
+
+      <h2>
+        Registrar asistencia
+      </h2>
+
+      <p>
+        Registrar asistencia
+      </p>
+
+    </div>
+
+  </main>
+
+</div>

@@ -1,0 +1,81 @@
+<div class="contenedor">
+
+  <div class="cabecera">
+    <div>
+      <h1>📋 Registrar asistencia</h1>
+      <p>Registro de asistencia de estudiantes</p>
+    </div>
+
+    <button class="btn-volver" (click)="volver()">
+      ← Volver
+    </button>
+  </div>
+
+  <div class="card">
+
+    <div class="datos">
+      <div>
+        <strong>Curso:</strong>
+        Matemática
+      </div>
+
+      <div>
+        <strong>Grado:</strong>
+        5to
+      </div>
+
+      <div>
+        <strong>Sección:</strong>
+        A
+      </div>
+
+      <div>
+        <strong>Fecha:</strong>
+        {{ fecha }}
+      </div>
+    </div>
+
+    @if (mensaje) {
+      <div class="mensaje">
+        {{ mensaje }}
+      </div>
+    }
+
+    <table>
+      <thead>
+        <tr>
+          <th>DNI</th>
+          <th>Estudiante</th>
+          <th>Asistencia</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (estudiante of estudiantes; track estudiante.id) {
+          <tr>
+            <td>{{ estudiante.dni }}</td>
+            <td>{{ estudiante.nombre }}</td>
+
+            <td>
+              <select [value]="estudiante.asistencia">
+                <option>Presente</option>
+                <option>Falta</option>
+                <option>Tardanza</option>
+              </select>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="acciones">
+      <button
+        class="btn-guardar"
+        (click)="guardarAsistencia()"
+      >
+        💾 Guardar asistencia
+      </button>
+    </div>
+
+  </div>
+</div>

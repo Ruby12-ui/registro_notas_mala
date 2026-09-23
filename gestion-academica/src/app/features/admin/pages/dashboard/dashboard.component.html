@@ -1,0 +1,105 @@
+<div class="dashboard">
+
+  <header>
+
+    <div>
+
+      <h1>
+        Panel de Administrador
+      </h1>
+
+      <p>
+        Gestión Académica
+      </p>
+
+    </div>
+
+    <button
+      (click)="cerrarSesion()"
+    >
+      Cerrar sesión
+    </button>
+
+  </header>
+
+  <main>
+
+    <div
+      class="card"
+      (click)="irEstudiantes()"
+    >
+
+      <span>
+        👨‍🎓
+      </span>
+
+      <h2>
+        Estudiantes
+      </h2>
+
+      <p>
+        Gestionar estudiantes
+      </p>
+
+    </div>
+
+    <div
+      class="card"
+      (click)="irProfesores()"
+    >
+
+      <span>
+        👨‍🏫
+      </span>
+
+      <h2>
+        Profesores
+      </h2>
+
+      <p>
+        Gestionar profesores
+      </p>
+
+    </div>
+
+    <div
+      class="card"
+      (click)="irCursos()"
+    >
+
+      <span>
+        📚
+      </span>
+
+      <h2>
+        Cursos
+      </h2>
+
+      <p>
+        Gestionar cursos
+      </p>
+
+    </div>
+
+    <div
+      class="card"
+      (click)="irPeriodos()"
+    >
+
+      <span>
+        📅
+      </span>
+
+      <h2>
+        Periodos
+      </h2>
+
+      <p>
+        Gestionar periodos académicos
+      </p>
+
+    </div>
+
+  </main>
+
+</div>

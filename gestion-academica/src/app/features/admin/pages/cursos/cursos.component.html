@@ -1,95 +1,263 @@
-<div class="contenedor">
+<div class="cursos-page">
 
-  <div class="cabecera">
+  <header class="top-header">
 
-    <div>
+    <div class="header-info">
+
+      <span class="breadcrumb">
+        ADMINISTRACIÓN / CURSOS
+      </span>
 
       <h1>
-        📚 Cursos
+        Gestión de cursos
       </h1>
 
       <p>
-        Gestión de cursos académicos
+        Consulta y administra los cursos académicos registrados.
       </p>
 
     </div>
 
     <button
-      class="btn-volver"
-      (click)="volver()"
-    >
-      ← Volver
+      class="back-button"
+      type="button"
+      (click)="volver()">
+
+      <span>←</span>
+      <span>Volver al dashboard</span>
+
     </button>
 
-  </div>
+  </header>
 
-  <div class="card">
 
-    <div class="acciones">
+  <section class="summary-grid">
 
-      <button class="btn-nuevo">
-        + Nuevo curso
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        📚
+      </div>
+
+      <div>
+
+        <strong>{{ cursos.length }}</strong>
+
+        <span>
+          Cursos registrados
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        🏫
+      </div>
+
+      <div>
+
+        <strong>3</strong>
+
+        <span>
+          Niveles educativos
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        ⏱️
+      </div>
+
+      <div>
+
+        <strong>
+          {{ totalHoras() }}
+        </strong>
+
+        <span>
+          Horas semanales
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="courses-card">
+
+    <div class="card-header">
+
+      <div>
+
+        <span class="section-label">
+          REGISTRO ACADÉMICO
+        </span>
+
+        <h2>
+          Lista de cursos
+        </h2>
+
+        <p>
+          Información de los cursos disponibles en la institución.
+        </p>
+
+      </div>
+
+
+      <button
+        class="new-button"
+        type="button">
+
+        <span>＋</span>
+
+        <span>
+          Nuevo curso
+        </span>
+
       </button>
 
     </div>
 
-    <table>
 
-      <thead>
+    <div class="table-container">
 
-        <tr>
+      <table>
 
-          <th>ID</th>
-
-          <th>Curso</th>
-
-          <th>Nivel</th>
-
-          <th>Grado</th>
-
-          <th>Horas semanales</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        @for (
-          curso of cursos;
-          track curso.id
-        ) {
+        <thead>
 
           <tr>
 
-            <td>
-              {{ curso.id }}
-            </td>
+            <th>ID</th>
 
-            <td>
-              {{ curso.nombre }}
-            </td>
+            <th>Curso</th>
 
-            <td>
-              {{ curso.nivel }}
-            </td>
+            <th>Nivel</th>
 
-            <td>
-              {{ curso.grado }}
-            </td>
+            <th>Grado</th>
 
-            <td>
-              {{ curso.horas }}
-            </td>
+            <th>Horas semanales</th>
 
           </tr>
 
-        }
+        </thead>
 
-      </tbody>
 
-    </table>
+        <tbody>
 
-  </div>
+          @for (
+            curso of cursos;
+            track curso.id
+          ) {
+
+            <tr>
+
+              <td>
+
+                <span class="course-id">
+                  #{{ curso.id }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="course-name">
+
+                  <div class="course-avatar">
+                    📚
+                  </div>
+
+                  <span>
+                    {{ curso.nombre }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span class="level-badge">
+                  {{ curso.nivel }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="grade-badge">
+                  {{ curso.grado }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="hours">
+
+                  <span class="clock-icon">
+                    ⏱
+                  </span>
+
+                  <span>
+                    {{ curso.horas }} horas
+                  </span>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="table-footer">
+
+      <span>
+        Mostrando {{ cursos.length }} cursos registrados
+      </span>
+
+      <span>
+        Corporación Virgen de Guadalupe
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <footer class="footer">
+
+    <span>
+      Corporación Virgen de Guadalupe
+    </span>
+
+    <span>
+      Sistema de Gestión y Seguimiento Académico
+    </span>
+
+  </footer>
 
 </div>

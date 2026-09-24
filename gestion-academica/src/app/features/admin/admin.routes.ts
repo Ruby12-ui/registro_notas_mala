@@ -98,6 +98,24 @@ export const ADMIN_ROUTES: Routes = [
       import('./pages/periodos/periodos.component')
         .then(m => m.PeriodosComponent)
 
+  },
+
+  {
+    path: 'perfil',
+
+    canActivate: [
+      authGuard,
+      roleGuard
+    ],
+
+    data: {
+      roles: ['ADMIN']
+    },
+
+    loadComponent: () =>
+      import('./pages/perfil/perfil.component')
+        .then(m => m.PerfilComponent)
+
   }
 
 ];

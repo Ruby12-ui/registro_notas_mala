@@ -53,6 +53,14 @@ export class DashboardComponent {
 
   }
 
+  irPerfil(): void {
+
+    this.router.navigate([
+      '/admin/perfil'
+    ]);
+
+  }
+
   cerrarSesion(): void {
 
     this.authService.logout();

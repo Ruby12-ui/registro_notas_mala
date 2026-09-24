@@ -33,6 +33,16 @@ export class CursosComponent {
 
   }
 
+  totalHoras(): number {
+
+    return this.cursos.reduce(
+      (total, curso) =>
+        total + curso.horas,
+      0
+    );
+
+  }
+
   volver(): void {
 
     this.router.navigate([

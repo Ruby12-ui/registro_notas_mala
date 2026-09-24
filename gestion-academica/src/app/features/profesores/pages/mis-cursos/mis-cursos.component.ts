@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
 
-interface CursoProfesor {
+interface Curso {
   id: number;
-  curso: string;
+  nombre: string;
   grado: string;
   seccion: string;
-  horas: number;
+  horario: string;
+  estudiantes: number;
 }
 
 @Component({
@@ -18,33 +20,59 @@ interface CursoProfesor {
 })
 export class MisCursosComponent {
 
-  cursos: CursoProfesor[] = [
+  cursos: Curso[] = [
     {
       id: 1,
-      curso: 'Matemática',
-      grado: '5to',
+      nombre: 'Matemática',
+      grado: '5to de Secundaria',
       seccion: 'A',
-      horas: 5
+      horario: 'Lunes y Miércoles - 8:00 a.m.',
+      estudiantes: 28
     },
     {
       id: 2,
-      curso: 'Comunicación',
-      grado: '5to',
+      nombre: 'Comunicación',
+      grado: '4to de Secundaria',
       seccion: 'A',
-      horas: 4
+      horario: 'Martes y Jueves - 10:00 a.m.',
+      estudiantes: 25
     },
     {
       id: 3,
-      curso: 'Ciencia y Tecnología',
-      grado: '3ro',
+      nombre: 'Matemática',
+      grado: '4to de Secundaria',
       seccion: 'B',
-      horas: 4
+      horario: 'Viernes - 8:00 a.m.',
+      estudiantes: 27
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  volver(): void {
+  irDashboard(): void {
     this.router.navigate(['/profesor/dashboard']);
+  }
+
+  irCursos(): void {
+    this.router.navigate(['/profesor/mis-cursos']);
+  }
+
+  irNotas(): void {
+    this.router.navigate(['/profesor/registrar-notas']);
+  }
+
+  irAsistencia(): void {
+    this.router.navigate(['/profesor/registrar-asistencia']);
+  }
+
+  irPerfil(): void {
+    this.router.navigate(['/profesor/mi-perfil']);
+  }
+
+  cerrarSesion(): void {
+    this.authService.logout();
   }
 }

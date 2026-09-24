@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 
 interface Asistencia {
   id: number;
-  curso: string;
   fecha: string;
-  estado: string;
+  curso: string;
+  estado: 'Presente' | 'Falta' | 'Tardanza';
 }
 
 @Component({
@@ -20,33 +20,94 @@ export class AsistenciasComponent {
   asistencias: Asistencia[] = [
     {
       id: 1,
-      curso: 'Matemática',
       fecha: '02/09/2026',
+      curso: 'Matemática',
       estado: 'Presente'
     },
     {
       id: 2,
-      curso: 'Comunicación',
       fecha: '03/09/2026',
+      curso: 'Comunicación',
       estado: 'Presente'
     },
     {
       id: 3,
-      curso: 'Matemática',
-      fecha: '09/09/2026',
-      estado: 'Falta'
+      fecha: '04/09/2026',
+      curso: 'Ciencia y Tecnología',
+      estado: 'Tardanza'
     },
     {
       id: 4,
-      curso: 'Ciencia y Tecnología',
-      fecha: '10/09/2026',
-      estado: 'Tardanza'
+      fecha: '07/09/2026',
+      curso: 'Matemática',
+      estado: 'Falta'
+    },
+    {
+      id: 5,
+      fecha: '08/09/2026',
+      curso: 'Comunicación',
+      estado: 'Presente'
+    },
+    {
+      id: 6,
+      fecha: '09/09/2026',
+      curso: 'Historia',
+      estado: 'Presente'
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router
+  ) {}
 
-  volver(): void {
-    this.router.navigate(['/estudiante/dashboard']);
+  irDashboard(): void {
+    this.router.navigate([
+      '/estudiante/dashboard'
+    ]);
   }
+
+  irNotas(): void {
+    this.router.navigate([
+      '/estudiante/notas'
+    ]);
+  }
+
+  irAsistencias(): void {
+    this.router.navigate([
+      '/estudiante/asistencias'
+    ]);
+  }
+
+  irPerfil(): void {
+    this.router.navigate([
+      '/estudiante/mi-perfil'
+    ]);
+  }
+
+  cantidadPresentes(): number {
+    return this.asistencias.filter(
+      asistencia => asistencia.estado === 'Presente'
+    ).length;
+  }
+
+  cantidadFaltas(): number {
+    return this.asistencias.filter(
+      asistencia => asistencia.estado === 'Falta'
+    ).length;
+  }
+
+  cantidadTardanzas(): number {
+    return this.asistencias.filter(
+      asistencia => asistencia.estado === 'Tardanza'
+    ).length;
+  }
+
+  cerrarSesion(): void {
+    localStorage.removeItem('usuario');
+
+    this.router.navigate([
+      '/login'
+    ]);
+  }
+
 }

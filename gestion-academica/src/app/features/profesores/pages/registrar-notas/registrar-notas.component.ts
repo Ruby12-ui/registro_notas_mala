@@ -1,66 +1,75 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
 
-interface EstudianteNota {
+interface Estudiante {
   id: number;
-  dni: string;
   nombre: string;
-  nota: number | null;
+  nota: number;
 }
 
 @Component({
   selector: 'app-registrar-notas',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './registrar-notas.component.html',
   styleUrl: './registrar-notas.component.css'
 })
 export class RegistrarNotasComponent {
 
-  cursoSeleccionado = 'Matemática';
-  gradoSeleccionado = '5to';
-  seccionSeleccionada = 'A';
+  curso = 'Matemática';
+  grado = '5to de Secundaria';
+  seccion = 'A';
+  periodo = 'Bimestre I';
 
-  estudiantes: EstudianteNota[] = [
-    {
-      id: 1,
-      dni: '74561234',
-      nombre: 'Juan Pérez García',
-      nota: 16
-    },
-    {
-      id: 2,
-      dni: '72345678',
-      nombre: 'María López Torres',
-      nota: 18
-    },
-    {
-      id: 3,
-      dni: '75678912',
-      nombre: 'Carlos Ramírez Díaz',
-      nota: 14
-    },
-    {
-      id: 4,
-      dni: '76891234',
-      nombre: 'Pedro Sánchez López',
-      nota: null
-    }
+  estudiantes: Estudiante[] = [
+    { id: 1, nombre: 'Ana Torres', nota: 16 },
+    { id: 2, nombre: 'María López', nota: 18 },
+    { id: 3, nombre: 'Carlos Pérez', nota: 10 },
+    { id: 4, nombre: 'Lucía Ramírez', nota: 17 },
+    { id: 5, nombre: 'Diego Mendoza', nota: 14 }
   ];
 
-  mensaje = '';
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  constructor(private router: Router) {}
-
-  guardarNotas(): void {
-    this.mensaje = 'Las notas fueron guardadas correctamente.';
-
-    setTimeout(() => {
-      this.mensaje = '';
-    }, 3000);
+  irDashboard(): void {
+    this.router.navigate(['/profesor/dashboard']);
   }
 
-  volver(): void {
-    this.router.navigate(['/profesor/dashboard']);
+  irCursos(): void {
+    this.router.navigate(['/profesor/mis-cursos']);
+  }
+
+  irNotas(): void {
+    this.router.navigate(['/profesor/registrar-notas']);
+  }
+
+  irAsistencia(): void {
+    this.router.navigate(['/profesor/registrar-asistencia']);
+  }
+
+  irPerfil(): void {
+    this.router.navigate(['/profesor/mi-perfil']);
+  }
+
+  actualizarNota(estudiante: Estudiante, evento: Event): void {
+    const input = evento.target as HTMLInputElement;
+    const nuevaNota = Number(input.value);
+
+    if (nuevaNota >= 0 && nuevaNota <= 20) {
+      estudiante.nota = nuevaNota;
+    }
+  }
+
+  guardarNotas(): void {
+    alert('Las calificaciones se guardaron correctamente.');
+  }
+
+  cerrarSesion(): void {
+    this.authService.logout();
   }
 }

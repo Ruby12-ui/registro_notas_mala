@@ -1,56 +1,275 @@
-<div class="contenedor">
+<div class="periodos-page">
 
-  <div class="cabecera">
-    <div>
-      <h1>📅 Periodos académicos</h1>
-      <p>Gestión de periodos académicos</p>
+  <header class="top-header">
+
+    <div class="header-info">
+
+      <span class="breadcrumb">
+        ADMINISTRACIÓN / PERIODOS ACADÉMICOS
+      </span>
+
+      <h1>
+        Gestión de periodos académicos
+      </h1>
+
+      <p>
+        Consulta y administra los periodos académicos de la institución.
+      </p>
+
     </div>
 
-    <button class="btn-volver" (click)="volver()">
-      ← Volver
+    <button
+      class="back-button"
+      type="button"
+      (click)="volver()">
+
+      <span>←</span>
+      <span>Volver al dashboard</span>
+
     </button>
-  </div>
 
-  <div class="card">
+  </header>
 
-    <div class="acciones">
-      <button class="btn-nuevo">
-        + Nuevo periodo
-      </button>
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        📅
+      </div>
+
+      <div>
+
+        <strong>{{ periodos.length }}</strong>
+
+        <span>
+          Periodos registrados
+        </span>
+
+      </div>
+
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Año</th>
-          <th>Periodo</th>
-          <th>Inicio</th>
-          <th>Fin</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        @for (periodo of periodos; track periodo.id) {
+    <div class="summary-card">
+
+      <div class="summary-icon active-icon">
+        ✓
+      </div>
+
+      <div>
+
+        <strong>{{ cantidadActivos() }}</strong>
+
+        <span>
+          Periodo activo
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon finished-icon">
+        ✓
+      </div>
+
+      <div>
+
+        <strong>{{ cantidadFinalizados() }}</strong>
+
+        <span>
+          Periodos finalizados
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="periods-card">
+
+    <div class="card-header">
+
+      <div>
+
+        <span class="section-label">
+          GESTIÓN ACADÉMICA
+        </span>
+
+        <h2>
+          Lista de periodos académicos
+        </h2>
+
+        <p>
+          Consulta los años académicos registrados en el sistema.
+        </p>
+
+      </div>
+
+
+      <button
+        class="new-button"
+        type="button">
+
+        <span>＋</span>
+
+        <span>
+          Nuevo periodo
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+
           <tr>
-            <td>{{ periodo.id }}</td>
-            <td>{{ periodo.anio }}</td>
-            <td>{{ periodo.nombre }}</td>
-            <td>{{ periodo.inicio }}</td>
-            <td>{{ periodo.fin }}</td>
-            <td>
-              <span
-                [class.activo]="periodo.estado === 'Activo'"
-                [class.finalizado]="periodo.estado === 'Finalizado'"
-              >
-                {{ periodo.estado }}
-              </span>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
 
-  </div>
+            <th>ID</th>
+
+            <th>Año</th>
+
+            <th>Periodo académico</th>
+
+            <th>Inicio</th>
+
+            <th>Fin</th>
+
+            <th>Estado</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (
+            periodo of periodos;
+            track periodo.id
+          ) {
+
+            <tr>
+
+              <td>
+
+                <span class="period-id">
+                  #{{ periodo.id }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="year">
+
+                  <span class="calendar-icon">
+                    📅
+                  </span>
+
+                  <strong>
+                    {{ periodo.anio }}
+                  </strong>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <div class="period-name">
+
+                  <span>
+                    {{ periodo.nombre }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span class="date">
+                  {{ periodo.inicio }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="date">
+                  {{ periodo.fin }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status-badge"
+                  [class.activo]="periodo.estado === 'Activo'"
+                  [class.finalizado]="periodo.estado === 'Finalizado'">
+
+                  <span class="status-dot"></span>
+
+                  {{ periodo.estado }}
+
+                </span>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="table-footer">
+
+      <span>
+        Mostrando {{ periodos.length }} periodos registrados
+      </span>
+
+      <span>
+        Corporación Virgen de Guadalupe
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <footer class="footer">
+
+    <span>
+      Corporación Virgen de Guadalupe
+    </span>
+
+    <span>
+      Sistema de Gestión y Seguimiento Académico
+    </span>
+
+  </footer>
+
 </div>

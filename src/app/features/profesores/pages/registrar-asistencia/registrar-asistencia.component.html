@@ -1,0 +1,343 @@
+<div class="profesor-page">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-icon">🎓</div>
+
+      <div class="brand-text">
+        <strong>SGSA</strong>
+        <span>Virgen de Guadalupe</span>
+      </div>
+    </div>
+
+    <div class="profile-box">
+
+      <div class="profile-avatar">
+        👨‍🏫
+      </div>
+
+      <div class="profile-info">
+        <strong>Profesor Demo</strong>
+        <span>Docente</span>
+      </div>
+
+    </div>
+
+    <div class="menu-title">
+      MENÚ PRINCIPAL
+    </div>
+
+    <nav class="menu">
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irDashboard()">
+
+        <span class="menu-icon">🏠</span>
+        <span>Dashboard</span>
+
+      </button>
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irCursos()">
+
+        <span class="menu-icon">📚</span>
+        <span>Mis cursos</span>
+
+      </button>
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irNotas()">
+
+        <span class="menu-icon">📝</span>
+        <span>Registrar notas</span>
+
+      </button>
+
+      <button
+        class="menu-item active"
+        type="button"
+        (click)="irAsistencia()">
+
+        <span class="menu-icon">📋</span>
+        <span>Registrar asistencia</span>
+
+      </button>
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irPerfil()">
+
+        <span class="menu-icon">👤</span>
+        <span>Mi perfil</span>
+
+      </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="user-mini">
+
+        <div class="user-avatar">
+          👨‍🏫
+        </div>
+
+        <div>
+          <strong>Profesor Demo</strong>
+          <span>Docente</span>
+        </div>
+
+      </div>
+
+      <button
+        class="logout-button"
+        type="button"
+        (click)="cerrarSesion()">
+
+        <span>🚪</span>
+        <span>Cerrar sesión</span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <div class="topbar">
+
+      <div>
+
+        <div class="breadcrumb">
+          <span>PROFESOR</span>
+          <span>/</span>
+          <span>REGISTRAR ASISTENCIA</span>
+        </div>
+
+        <h1>Registrar asistencia</h1>
+
+        <p>
+          Registra la asistencia diaria de tus estudiantes.
+        </p>
+
+      </div>
+
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        Sesión activa
+      </div>
+
+    </div>
+
+
+    <section class="info-card">
+
+      <div class="info-header">
+
+        <div>
+          <span class="section-label">CLASE ACTUAL</span>
+          <h2>{{ curso }}</h2>
+        </div>
+
+        <div class="course-badge">
+          {{ fecha }}
+        </div>
+
+      </div>
+
+
+      <div class="info-grid">
+
+        <div>
+          <span>Grado</span>
+          <strong>{{ grado }}</strong>
+        </div>
+
+        <div>
+          <span>Sección</span>
+          <strong>{{ seccion }}</strong>
+        </div>
+
+        <div>
+          <span>Fecha</span>
+          <strong>{{ fecha }}</strong>
+        </div>
+
+        <div>
+          <span>Estudiantes</span>
+          <strong>{{ estudiantes.length }}</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="attendance-section">
+
+      <div class="section-header">
+
+        <span class="section-label">CONTROL DE ASISTENCIA</span>
+
+        <h2>Lista de estudiantes</h2>
+
+        <p>
+          Selecciona el estado correspondiente para cada estudiante.
+        </p>
+
+      </div>
+
+
+      <div class="summary-grid">
+
+        <div class="summary-card">
+
+          <div class="summary-icon">
+            ✓
+          </div>
+
+          <div>
+            <span>Presentes</span>
+            <strong>{{ cantidadPresentes() }}</strong>
+          </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+          <div class="summary-icon">
+            ✕
+          </div>
+
+          <div>
+            <span>Faltas</span>
+            <strong>{{ cantidadFaltas() }}</strong>
+          </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+          <div class="summary-icon">
+            ⏱
+          </div>
+
+          <div>
+            <span>Tardanzas</span>
+            <strong>{{ cantidadTardanzas() }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="table-card">
+
+        <div class="table-header">
+
+          <span>ESTUDIANTE</span>
+
+          <span>ESTADO DE ASISTENCIA</span>
+
+        </div>
+
+
+        <div
+          class="student-row"
+          *ngFor="let estudiante of estudiantes">
+
+          <div class="student-info">
+
+            <div class="student-avatar">
+              {{ estudiante.id }}
+            </div>
+
+            <div>
+              <strong>{{ estudiante.nombre }}</strong>
+              <span>Estudiante</span>
+            </div>
+
+          </div>
+
+
+          <div class="attendance-buttons">
+
+            <button
+              type="button"
+              class="attendance-button presente"
+              [class.selected]="estudiante.estado === 'Presente'"
+              (click)="cambiarEstado(estudiante, 'Presente')">
+
+              ✓ Presente
+
+            </button>
+
+
+            <button
+              type="button"
+              class="attendance-button falta"
+              [class.selected]="estudiante.estado === 'Falta'"
+              (click)="cambiarEstado(estudiante, 'Falta')">
+
+              ✕ Falta
+
+            </button>
+
+
+            <button
+              type="button"
+              class="attendance-button tardanza"
+              [class.selected]="estudiante.estado === 'Tardanza'"
+              (click)="cambiarEstado(estudiante, 'Tardanza')">
+
+              ⏱ Tardanza
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="save-button"
+          type="button"
+          (click)="guardarAsistencia()">
+
+          💾 Guardar asistencia
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <footer>
+
+      <span>Sistema de Gestión y Seguimiento Académico</span>
+
+      <span>Corporación Virgen de Guadalupe</span>
+
+    </footer>
+
+  </main>
+
+</div>

@@ -1,0 +1,227 @@
+<div class="estudiantes-page">
+
+  <header class="top-header">
+
+    <div class="header-info">
+
+      <span class="breadcrumb">
+        ADMINISTRACIÓN / ESTUDIANTES
+      </span>
+
+      <h1>
+        Gestión de estudiantes
+      </h1>
+
+      <p>
+        Consulta y administra la información de los estudiantes registrados.
+      </p>
+
+    </div>
+
+    <button
+      class="back-button"
+      type="button"
+      (click)="volver()">
+
+      <span>←</span>
+      <span>Volver al dashboard</span>
+
+    </button>
+
+  </header>
+
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        👨‍🎓
+      </div>
+
+      <div>
+        <strong>{{ estudiantes.length }}</strong>
+        <span>Estudiantes registrados</span>
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon active">
+        ✓
+      </div>
+
+      <div>
+        <strong>{{ estudiantes.length }}</strong>
+        <span>Estudiantes activos</span>
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+        🏫
+      </div>
+
+      <div>
+        <strong>3</strong>
+        <span>Grados registrados</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="students-card">
+
+    <div class="card-header">
+
+      <div>
+
+        <span class="section-label">
+          REGISTRO ACADÉMICO
+        </span>
+
+        <h2>
+          Lista de estudiantes
+        </h2>
+
+        <p>
+          Información de los estudiantes registrados en el sistema.
+        </p>
+
+      </div>
+
+
+      <button
+        class="new-button"
+        type="button">
+
+        <span>＋</span>
+        <span>Nuevo estudiante</span>
+
+      </button>
+
+    </div>
+
+
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre completo</th>
+            <th>Grado</th>
+            <th>Sección</th>
+            <th>Estado</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (estudiante of estudiantes; track estudiante.id) {
+
+            <tr>
+
+              <td>
+                <span class="student-id">
+                  #{{ estudiante.id }}
+                </span>
+              </td>
+
+              <td>
+                {{ estudiante.dni }}
+              </td>
+
+              <td>
+
+                <div class="student-name">
+
+                  <div class="student-avatar">
+                    {{ estudiante.nombre.charAt(0) }}
+                  </div>
+
+                  <span>
+                    {{ estudiante.nombre }}
+                  </span>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="grade-badge">
+                  {{ estudiante.grado }}
+                </span>
+              </td>
+
+              <td>
+                <span class="section-badge">
+                  {{ estudiante.seccion }}
+                </span>
+              </td>
+
+              <td>
+
+                <span class="status-badge">
+
+                  <span class="status-dot"></span>
+
+                  {{ estudiante.estado }}
+
+                </span>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="table-footer">
+
+      <span>
+        Mostrando {{ estudiantes.length }} estudiantes registrados
+      </span>
+
+      <span>
+        Corporación Virgen de Guadalupe
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <footer class="footer">
+
+    <span>
+      Corporación Virgen de Guadalupe
+    </span>
+
+    <span>
+      Sistema de Gestión y Seguimiento Académico
+    </span>
+
+  </footer>
+
+</div>

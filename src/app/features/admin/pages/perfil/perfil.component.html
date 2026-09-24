@@ -1,0 +1,272 @@
+<div class="perfil-page">
+
+  <header class="top-header">
+
+    <div class="header-info">
+
+      <span class="breadcrumb">
+        ADMINISTRACIÓN / MI PERFIL
+      </span>
+
+      <h1>
+        Mi perfil
+      </h1>
+
+      <p>
+        Consulta la información de tu cuenta
+        dentro del sistema académico.
+      </p>
+
+    </div>
+
+    <button
+      class="back-button"
+      type="button"
+      (click)="volver()">
+
+      <span>←</span>
+
+      <span>
+        Volver al dashboard
+      </span>
+
+    </button>
+
+  </header>
+
+
+  <section class="profile-layout">
+
+
+    <div class="profile-card">
+
+      <div class="profile-cover">
+
+        <div class="cover-circle"></div>
+
+        <div class="cover-circle-small"></div>
+
+      </div>
+
+
+      <div class="profile-content">
+
+        <div class="profile-avatar">
+
+          @if (fotoPerfil) {
+
+            <img
+              [src]="fotoPerfil"
+              alt="Foto de perfil">
+
+          } @else {
+
+            <span>A</span>
+
+          }
+
+        </div>
+
+
+        <label class="photo-button">
+
+          <span>📷</span>
+
+          Cambiar foto
+
+          <input
+            type="file"
+            accept="image/*"
+            (change)="seleccionarFoto($event)">
+
+        </label>
+
+
+        <h2>
+          Administrador
+        </h2>
+
+
+        <p class="profile-role">
+          Administrador del sistema
+        </p>
+
+
+        <span class="status-badge">
+
+          <span class="status-dot"></span>
+
+          Cuenta activa
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="information-card">
+
+      <div class="card-header">
+
+        <span class="section-label">
+          INFORMACIÓN DE CUENTA
+        </span>
+
+        <h2>
+          Datos del administrador
+        </h2>
+
+        <p>
+          Información registrada en el sistema académico.
+        </p>
+
+      </div>
+
+
+      <div class="information-grid">
+
+
+        <div class="information-item">
+
+          <div class="item-icon">
+            👤
+          </div>
+
+          <div class="item-content">
+
+            <span class="item-label">
+              Nombre completo
+            </span>
+
+            <span class="item-value">
+              Administrador
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-item">
+
+          <div class="item-icon">
+            🔑
+          </div>
+
+          <div class="item-content">
+
+            <span class="item-label">
+              Usuario
+            </span>
+
+            <span class="item-value">
+              admin
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-item">
+
+          <div class="item-icon">
+            🛡️
+          </div>
+
+          <div class="item-content">
+
+            <span class="item-label">
+              Rol
+            </span>
+
+            <span class="item-value">
+              Administrador
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-item">
+
+          <div class="item-icon">
+            ✓
+          </div>
+
+          <div class="item-content">
+
+            <span class="item-label">
+              Estado de cuenta
+            </span>
+
+            <span class="item-value active-text">
+              Activo
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="security-card">
+
+    <div class="security-icon">
+      🔐
+    </div>
+
+
+    <div class="security-content">
+
+      <span class="section-label">
+        SEGURIDAD
+      </span>
+
+      <h3>
+        Cuenta protegida
+      </h3>
+
+      <p>
+        Tu cuenta tiene permisos de administrador
+        para gestionar la información académica
+        de la institución.
+      </p>
+
+    </div>
+
+
+    <div class="security-status">
+
+      <span class="security-dot"></span>
+
+      Protegida
+
+    </div>
+
+  </section>
+
+
+
+  <footer class="footer">
+
+    <span>
+      Corporación Virgen de Guadalupe
+    </span>
+
+    <span>
+      Sistema de Gestión y Seguimiento Académico
+    </span>
+
+  </footer>
+
+</div>

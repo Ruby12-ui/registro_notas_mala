@@ -1,0 +1,581 @@
+<div class="estudiante-page">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+      <div class="brand-icon">
+        🎓
+      </div>
+
+      <div class="brand-text">
+
+        <strong>
+          SGSA
+        </strong>
+
+        <span>
+          Virgen de Guadalupe
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="profile-box">
+
+      <div class="profile-avatar">
+        👨‍🎓
+      </div>
+
+      <div class="profile-info">
+
+        <strong>
+          Estudiante Demo
+        </strong>
+
+        <span>
+          Estudiante
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="menu-title">
+      MENÚ PRINCIPAL
+    </div>
+
+
+    <nav class="menu">
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irDashboard()">
+
+        <span class="menu-icon">
+          🏠
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irNotas()">
+
+        <span class="menu-icon">
+          📝
+        </span>
+
+        <span>
+          Mis notas
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-item"
+        type="button"
+        (click)="irAsistencias()">
+
+        <span class="menu-icon">
+          📋
+        </span>
+
+        <span>
+          Mis asistencias
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-item active"
+        type="button"
+        (click)="irPerfil()">
+
+        <span class="menu-icon">
+          👤
+        </span>
+
+        <span>
+          Mi perfil
+        </span>
+
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="user-mini">
+
+        <div class="user-avatar">
+          👨‍🎓
+        </div>
+
+        <div>
+
+          <strong>
+            Estudiante Demo
+          </strong>
+
+          <span>
+            Estudiante
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-button"
+        type="button"
+        (click)="cerrarSesion()">
+
+        <span>
+          🚪
+        </span>
+
+        <span>
+          Cerrar sesión
+        </span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+
+    <div class="topbar">
+
+      <div>
+
+        <div class="breadcrumb">
+
+          <span>
+            ESTUDIANTE
+          </span>
+
+          <span>
+            /
+          </span>
+
+          <span>
+            MI PERFIL
+          </span>
+
+        </div>
+
+
+        <h1>
+          Mi perfil
+        </h1>
+
+
+        <p>
+          Consulta y administra la información
+          de tu perfil estudiantil.
+        </p>
+
+      </div>
+
+
+      <div class="status-pill">
+
+        <span class="status-dot"></span>
+
+        Sesión activa
+
+      </div>
+
+    </div>
+
+
+    <section class="profile-card">
+
+
+      <div class="profile-header">
+
+
+        <div class="photo-section">
+
+          <div class="large-avatar">
+
+            @if (fotoPerfil) {
+
+              <img
+                [src]="fotoPerfil"
+                alt="Foto de perfil del estudiante">
+
+            } @else {
+
+              <span>
+                👨‍🎓
+              </span>
+
+            }
+
+          </div>
+
+
+          <label class="photo-button">
+
+            📷 Cambiar foto
+
+            <input
+              type="file"
+              accept="image/*"
+              (change)="cambiarFoto($event)"
+              hidden>
+
+          </label>
+
+        </div>
+
+
+        <div class="profile-title">
+
+          <span class="section-label">
+            PERFIL ESTUDIANTIL
+          </span>
+
+
+          <h2>
+            Estudiante Demo
+          </h2>
+
+
+          <p>
+            Estudiante de la Corporación
+            Virgen de Guadalupe
+          </p>
+
+
+          <span class="role-badge">
+            👨‍🎓 Estudiante
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="section-divider"></div>
+
+
+      <div class="section-title">
+
+        <span class="section-label">
+          INFORMACIÓN PERSONAL
+        </span>
+
+        <h2>
+          Datos del estudiante
+        </h2>
+
+      </div>
+
+
+      <div class="data-grid">
+
+
+        <div class="data-item">
+
+          <span>
+            Nombres
+          </span>
+
+          <strong>
+            Estudiante
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Apellidos
+          </span>
+
+          <strong>
+            Demo
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Usuario
+          </span>
+
+          <strong>
+            estudiante
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Rol
+          </span>
+
+          <strong>
+            Estudiante
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Institución
+          </span>
+
+          <strong>
+            Virgen de Guadalupe
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Estado
+          </span>
+
+          <strong class="active-status">
+            ● Activo
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="section-divider"></div>
+
+
+      <div class="section-title">
+
+        <span class="section-label">
+          INFORMACIÓN ACADÉMICA
+        </span>
+
+        <h2>
+          Datos académicos
+        </h2>
+
+      </div>
+
+
+      <div class="data-grid">
+
+
+        <div class="data-item">
+
+          <span>
+            Nivel educativo
+          </span>
+
+          <strong>
+            Secundaria
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Grado
+          </span>
+
+          <strong>
+            5.º de Secundaria
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Sección
+          </span>
+
+          <strong>
+            A
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Periodo académico
+          </span>
+
+          <strong>
+            2026
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Institución
+          </span>
+
+          <strong>
+            Virgen de Guadalupe
+          </strong>
+
+        </div>
+
+
+        <div class="data-item">
+
+          <span>
+            Estado académico
+          </span>
+
+          <strong class="active-status">
+            ● Activo
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="section-divider"></div>
+
+
+      <div class="section-title">
+
+        <span class="section-label">
+          INFORMACIÓN DEL SISTEMA
+        </span>
+
+        <h2>
+          Accesos disponibles
+        </h2>
+
+      </div>
+
+
+      <div class="permissions-grid">
+
+
+        <div class="permission-card">
+
+          <div class="permission-icon">
+            📊
+          </div>
+
+          <div>
+
+            <strong>
+              Dashboard
+            </strong>
+
+            <span>
+              Consulta el resumen de tu
+              información académica.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="permission-card">
+
+          <div class="permission-icon">
+            📝
+          </div>
+
+          <div>
+
+            <strong>
+              Mis notas
+            </strong>
+
+            <span>
+              Consulta tus calificaciones
+              y promedio académico.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="permission-card">
+
+          <div class="permission-icon">
+            📋
+          </div>
+
+          <div>
+
+            <strong>
+              Mis asistencias
+            </strong>
+
+            <span>
+              Consulta tus asistencias,
+              faltas y tardanzas.
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <footer>
+
+      <span>
+        Sistema de Gestión y Seguimiento Académico
+      </span>
+
+      <span>
+        Corporación Virgen de Guadalupe
+      </span>
+
+    </footer>
+
+  </main>
+
+</div>

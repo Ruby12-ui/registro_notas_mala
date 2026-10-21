@@ -1,0 +1,424 @@
+<div class="dashboard">
+
+  <aside class="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        📚
+      </div>
+
+      <div class="brand-info">
+
+        <h1>
+          Virgen de Guadalupe
+        </h1>
+
+        <span>
+          Gestión Académica
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <nav class="menu">
+
+      <p class="menu-title">
+        MENÚ PRINCIPAL
+      </p>
+
+
+      <button
+        class="menu-button"
+        type="button"
+        (click)="irDashboard()">
+
+        <span class="menu-icon">
+          🏠
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-button active"
+        type="button"
+        (click)="irNotas()">
+
+        <span class="menu-icon">
+          📝
+        </span>
+
+        <span>
+          Mis notas
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-button"
+        type="button"
+        (click)="irAsistencias()">
+
+        <span class="menu-icon">
+          📅
+        </span>
+
+        <span>
+          Mis asistencias
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-button"
+        type="button"
+        (click)="irPerfil()">
+
+        <span class="menu-icon">
+          👤
+        </span>
+
+        <span>
+          Mi perfil
+        </span>
+
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="admin-user">
+
+        <div class="admin-avatar">
+          E
+        </div>
+
+        <div class="admin-info">
+
+          <strong>
+            Estudiante
+          </strong>
+
+          <small>
+            Panel estudiantil
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-button"
+        type="button"
+        (click)="cerrarSesion()">
+
+        <span>
+          🚪
+        </span>
+
+        <span>
+          Cerrar sesión
+        </span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+
+        <span class="breadcrumb">
+          ESTUDIANTE / MIS NOTAS
+        </span>
+
+        <h2>
+          Mis notas
+        </h2>
+
+      </div>
+
+
+      <div class="user-status">
+
+        <span class="status-dot"></span>
+
+        Estudiante
+
+      </div>
+
+    </header>
+
+
+    <section class="statistics">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          📚
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            {{ notas.length }}
+          </strong>
+
+          <span>
+            Cursos registrados
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ✓
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            {{ cantidadAprobados() }}
+          </strong>
+
+          <span>
+            Cursos aprobados
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          📊
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            15.5
+          </strong>
+
+          <span>
+            Promedio general
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          🎓
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            2026
+          </strong>
+
+          <span>
+            Periodo actual
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="modules">
+
+      <div class="modules-header">
+
+        <div>
+
+          <span>
+            REGISTRO ACADÉMICO
+          </span>
+
+          <h3>
+            Calificaciones
+          </h3>
+
+        </div>
+
+        <p>
+          Consulta las notas registradas por tus docentes
+        </p>
+
+      </div>
+
+
+      <div class="grades-card">
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>ID</th>
+                <th>Curso</th>
+                <th>Docente</th>
+                <th>Bimestre I</th>
+                <th>Bimestre II</th>
+                <th>Promedio</th>
+                <th>Estado</th>
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for (nota of notas; track nota.id) {
+
+                <tr>
+
+                  <td>
+                    <span class="grade-id">
+                      #{{ nota.id }}
+                    </span>
+                  </td>
+
+
+                  <td>
+
+                    <div class="course-name">
+
+                      <div class="course-avatar">
+                        📚
+                      </div>
+
+                      <span>
+                        {{ nota.curso }}
+                      </span>
+
+                    </div>
+
+                  </td>
+
+
+                  <td>
+                    {{ nota.docente }}
+                  </td>
+
+
+                  <td>
+                    {{ nota.bimestre1 }}
+                  </td>
+
+
+                  <td>
+                    {{ nota.bimestre2 }}
+                  </td>
+
+
+                  <td>
+
+                    <span class="average">
+                      {{ nota.promedio }}
+                    </span>
+
+                  </td>
+
+
+                  <td>
+
+                    @if (nota.promedio >= 11) {
+
+                      <span class="status-badge approved">
+
+                        <span class="status-dot"></span>
+
+                        Aprobado
+
+                      </span>
+
+                    } @else {
+
+                      <span class="status-badge failed">
+
+                        <span class="status-dot"></span>
+
+                        Desaprobado
+
+                      </span>
+
+                    }
+
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="table-footer">
+
+          <span>
+            Mostrando {{ notas.length }} cursos registrados
+          </span>
+
+          <span>
+            Corporación Virgen de Guadalupe
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+      <span>
+        Corporación Virgen de Guadalupe
+      </span>
+
+      <span>
+        Sistema de Gestión y Seguimiento Académico
+      </span>
+
+    </footer>
+
+  </main>
+
+</div>

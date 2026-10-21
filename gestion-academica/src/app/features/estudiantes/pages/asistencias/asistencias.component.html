@@ -1,0 +1,435 @@
+<div class="dashboard">
+
+  <aside class="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        📚
+      </div>
+
+      <div class="brand-info">
+
+        <h1>
+          Virgen de Guadalupe
+        </h1>
+
+        <span>
+          Gestión Académica
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <nav class="menu">
+
+      <p class="menu-title">
+        MENÚ PRINCIPAL
+      </p>
+
+
+      <button
+        class="menu-button"
+        type="button"
+        (click)="irDashboard()">
+
+        <span class="menu-icon">
+          🏠
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-button"
+        type="button"
+        (click)="irNotas()">
+
+        <span class="menu-icon">
+          📝
+        </span>
+
+        <span>
+          Mis notas
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-button active"
+        type="button"
+        (click)="irAsistencias()">
+
+        <span class="menu-icon">
+          📅
+        </span>
+
+        <span>
+          Mis asistencias
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-button"
+        type="button"
+        (click)="irPerfil()">
+
+        <span class="menu-icon">
+          👤
+        </span>
+
+        <span>
+          Mi perfil
+        </span>
+
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="admin-user">
+
+        <div class="admin-avatar">
+          E
+        </div>
+
+        <div class="admin-info">
+
+          <strong>
+            Estudiante
+          </strong>
+
+          <small>
+            Panel estudiantil
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-button"
+        type="button"
+        (click)="cerrarSesion()">
+
+        <span>
+          🚪
+        </span>
+
+        <span>
+          Cerrar sesión
+        </span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+
+        <span class="breadcrumb">
+          ESTUDIANTE / MIS ASISTENCIAS
+        </span>
+
+        <h2>
+          Mis asistencias
+        </h2>
+
+      </div>
+
+
+      <div class="user-status">
+
+        <span class="status-dot"></span>
+
+        Estudiante
+
+      </div>
+
+    </header>
+
+
+    <section class="statistics">
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          📅
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            {{ asistencias.length }}
+          </strong>
+
+          <span>
+            Registros
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ✓
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            {{ cantidadPresentes() }}
+          </strong>
+
+          <span>
+            Presentes
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ❌
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            {{ cantidadFaltas() }}
+          </strong>
+
+          <span>
+            Faltas
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ⏰
+        </div>
+
+        <div class="stat-info">
+
+          <strong>
+            {{ cantidadTardanzas() }}
+          </strong>
+
+          <span>
+            Tardanzas
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="modules">
+
+      <div class="modules-header">
+
+        <div>
+
+          <span>
+            CONTROL ACADÉMICO
+          </span>
+
+          <h3>
+            Registro de asistencias
+          </h3>
+
+        </div>
+
+        <p>
+          Consulta tu historial de asistencia
+        </p>
+
+      </div>
+
+
+      <div class="grades-card">
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  ID
+                </th>
+
+                <th>
+                  Fecha
+                </th>
+
+                <th>
+                  Curso
+                </th>
+
+                <th>
+                  Estado
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for (
+                asistencia of asistencias;
+                track asistencia.id
+              ) {
+
+                <tr>
+
+                  <td>
+
+                    <span class="grade-id">
+                      #{{ asistencia.id }}
+                    </span>
+
+                  </td>
+
+
+                  <td>
+                    {{ asistencia.fecha }}
+                  </td>
+
+
+                  <td>
+
+                    <div class="course-name">
+
+                      <div class="course-avatar">
+                        📚
+                      </div>
+
+                      <span>
+                        {{ asistencia.curso }}
+                      </span>
+
+                    </div>
+
+                  </td>
+
+
+                  <td>
+
+                    @if (
+                      asistencia.estado === 'Presente'
+                    ) {
+
+                      <span class="status-badge approved">
+
+                        <span class="status-dot"></span>
+
+                        Presente
+
+                      </span>
+
+                    } @else if (
+                      asistencia.estado === 'Falta'
+                    ) {
+
+                      <span class="status-badge failed">
+
+                        <span class="status-dot"></span>
+
+                        Falta
+
+                      </span>
+
+                    } @else {
+
+                      <span class="status-badge late">
+
+                        <span class="status-dot"></span>
+
+                        Tardanza
+
+                      </span>
+
+                    }
+
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="table-footer">
+
+          <span>
+            Mostrando {{ asistencias.length }} registros
+          </span>
+
+          <span>
+            Corporación Virgen de Guadalupe
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+      <span>
+        Corporación Virgen de Guadalupe
+      </span>
+
+      <span>
+        Sistema de Gestión y Seguimiento Académico
+      </span>
+
+    </footer>
+
+  </main>
+
+</div>

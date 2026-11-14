@@ -1,15 +1,7 @@
 export interface Curso {
-
-  id: number;
-
+  id?: number;
   nombre: string;
-
-  nivel: string;
-
-  grado: string;
-
-  horas: number;
-
+  descripcion?: string;
+  nivelEducativo?: string;
   estado?: string;
-
 }

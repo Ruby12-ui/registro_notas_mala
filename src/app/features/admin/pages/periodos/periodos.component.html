@@ -3,90 +3,51 @@
   <header class="top-header">
 
     <div class="header-info">
-
-      <span class="breadcrumb">
-        ADMINISTRACIÓN / PERIODOS ACADÉMICOS
-      </span>
-
-      <h1>
-        Gestión de periodos académicos
-      </h1>
-
-      <p>
-        Consulta y administra los periodos académicos de la institución.
-      </p>
-
+      <span class="breadcrumb">ADMINISTRACIÓN / PERIODOS ACADÉMICOS</span>
+      <h1>Gestión de periodos académicos</h1>
+      <p>Consulta y administra los periodos académicos de la institución.</p>
     </div>
 
-    <button
-      class="back-button"
-      type="button"
-      (click)="volver()">
-
+    <button class="back-button" type="button" (click)="volver()">
       <span>←</span>
       <span>Volver al dashboard</span>
-
     </button>
 
   </header>
 
 
+  @if (error) {
+    <div class="alert-error">
+      <span>⚠️ {{ error }}</span>
+      <button type="button" (click)="error = ''">✕</button>
+    </div>
+  }
+
+
   <section class="summary-grid">
 
     <div class="summary-card">
-
-      <div class="summary-icon">
-        📅
-      </div>
-
+      <div class="summary-icon">📅</div>
       <div>
-
         <strong>{{ periodos.length }}</strong>
-
-        <span>
-          Periodos registrados
-        </span>
-
+        <span>Periodos registrados</span>
       </div>
-
     </div>
 
-
     <div class="summary-card">
-
-      <div class="summary-icon active-icon">
-        ✓
-      </div>
-
+      <div class="summary-icon active-icon">✓</div>
       <div>
-
         <strong>{{ cantidadActivos() }}</strong>
-
-        <span>
-          Periodo activo
-        </span>
-
+        <span>Periodo activo</span>
       </div>
-
     </div>
 
-
     <div class="summary-card">
-
-      <div class="summary-icon finished-icon">
-        ✓
-      </div>
-
+      <div class="summary-icon finished-icon">✓</div>
       <div>
-
         <strong>{{ cantidadFinalizados() }}</strong>
-
-        <span>
-          Periodos finalizados
-        </span>
-
+        <span>Periodos finalizados</span>
       </div>
-
     </div>
 
   </section>
@@ -95,181 +56,135 @@
   <section class="periods-card">
 
     <div class="card-header">
-
       <div>
-
-        <span class="section-label">
-          GESTIÓN ACADÉMICA
-        </span>
-
-        <h2>
-          Lista de periodos académicos
-        </h2>
-
-        <p>
-          Consulta los años académicos registrados en el sistema.
-        </p>
-
+        <span class="section-label">GESTIÓN ACADÉMICA</span>
+        <h2>Lista de periodos académicos</h2>
+        <p>Consulta los años académicos registrados en el sistema.</p>
       </div>
 
-
-      <button
-        class="new-button"
-        type="button">
-
+      <button class="new-button" type="button" (click)="abrirCrear()">
         <span>＋</span>
-
-        <span>
-          Nuevo periodo
-        </span>
-
+        <span>Nuevo periodo</span>
       </button>
-
     </div>
 
 
-    <div class="table-container">
+    @if (cargando) {
+      <div class="loading">Cargando...</div>
+    }
 
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>ID</th>
-
-            <th>Año</th>
-
-            <th>Periodo académico</th>
-
-            <th>Inicio</th>
-
-            <th>Fin</th>
-
-            <th>Estado</th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          @for (
-            periodo of periodos;
-            track periodo.id
-          ) {
-
+    @if (!cargando) {
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-
-              <td>
-
-                <span class="period-id">
-                  #{{ periodo.id }}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <div class="year">
-
-                  <span class="calendar-icon">
-                    📅
-                  </span>
-
-                  <strong>
-                    {{ periodo.anio }}
-                  </strong>
-
-                </div>
-
-              </td>
-
-
-              <td>
-
-                <div class="period-name">
-
-                  <span>
-                    {{ periodo.nombre }}
-                  </span>
-
-                </div>
-
-              </td>
-
-
-              <td>
-
-                <span class="date">
-                  {{ periodo.inicio }}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <span class="date">
-                  {{ periodo.fin }}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <span
-                  class="status-badge"
-                  [class.activo]="periodo.estado === 'Activo'"
-                  [class.finalizado]="periodo.estado === 'Finalizado'">
-
-                  <span class="status-dot"></span>
-
-                  {{ periodo.estado }}
-
-                </span>
-
-              </td>
-
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Fecha inicio</th>
+              <th>Fecha fin</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
+          </thead>
+          <tbody>
+            @for (periodo of periodos; track periodo.id) {
+              <tr>
+                <td><span class="period-id">#{{ periodo.id }}</span></td>
+                <td>
+                  <div class="period-name">
+                    <span class="calendar-icon">📅</span>
+                    <span>{{ periodo.nombre }}</span>
+                  </div>
+                </td>
+                <td><span class="date">{{ periodo.fechaInicio }}</span></td>
+                <td><span class="date">{{ periodo.fechaFin }}</span></td>
+                <td>
+                  <span
+                    class="status-badge"
+                    [class.activo]="periodo.estado === 'Activo'"
+                    [class.finalizado]="periodo.estado === 'Finalizado'">
+                    <span class="status-dot"></span>
+                    {{ periodo.estado }}
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-edit" type="button" (click)="abrirEditar(periodo)">✏️ Editar</button>
+                    <button class="btn-delete" type="button" (click)="eliminar(periodo.id!)">🗑️ Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+            @empty {
+              <tr>
+                <td colspan="6" class="empty-row">No hay periodos registrados.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
 
-          }
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-    <div class="table-footer">
-
-      <span>
-        Mostrando {{ periodos.length }} periodos registrados
-      </span>
-
-      <span>
-        Corporación Virgen de Guadalupe
-      </span>
-
-    </div>
+      <div class="table-footer">
+        <span>Mostrando {{ periodos.length }} periodos registrados</span>
+        <span>Corporación Virgen de Guadalupe</span>
+      </div>
+    }
 
   </section>
 
 
   <footer class="footer">
-
-    <span>
-      Corporación Virgen de Guadalupe
-    </span>
-
-    <span>
-      Sistema de Gestión y Seguimiento Académico
-    </span>
-
+    <span>Corporación Virgen de Guadalupe</span>
+    <span>Sistema de Gestión y Seguimiento Académico</span>
   </footer>
+
+
+  <!-- MODAL -->
+  @if (mostrarModal) {
+    <div class="modal-backdrop" (click)="cerrarModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+          <h3>{{ modoEdicion ? 'Editar periodo' : 'Nuevo periodo académico' }}</h3>
+          <button type="button" class="modal-close" (click)="cerrarModal()">✕</button>
+        </div>
+
+        <form class="modal-form" (ngSubmit)="guardar()">
+
+          <div class="campo">
+            <label>Nombre del periodo *</label>
+            <input type="text" [(ngModel)]="form.nombre" name="nombre" required placeholder="Ej: Año Académico 2026">
+          </div>
+
+          <div class="form-row">
+            <div class="campo">
+              <label>Fecha de inicio *</label>
+              <input type="date" [(ngModel)]="form.fechaInicio" name="fechaInicio" required>
+            </div>
+            <div class="campo">
+              <label>Fecha de fin *</label>
+              <input type="date" [(ngModel)]="form.fechaFin" name="fechaFin" required>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>Estado *</label>
+            <select [(ngModel)]="form.estado" name="estado" required>
+              <option value="Activo">Activo</option>
+              <option value="Finalizado">Finalizado</option>
+            </select>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" class="btn-save" [disabled]="guardando">
+              {{ guardando ? 'Guardando...' : (modoEdicion ? 'Actualizar' : 'Guardar') }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  }
 
 </div>

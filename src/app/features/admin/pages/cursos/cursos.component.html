@@ -3,92 +3,51 @@
   <header class="top-header">
 
     <div class="header-info">
-
-      <span class="breadcrumb">
-        ADMINISTRACIÓN / CURSOS
-      </span>
-
-      <h1>
-        Gestión de cursos
-      </h1>
-
-      <p>
-        Consulta y administra los cursos académicos registrados.
-      </p>
-
+      <span class="breadcrumb">ADMINISTRACIÓN / CURSOS</span>
+      <h1>Gestión de cursos</h1>
+      <p>Consulta y administra los cursos académicos registrados.</p>
     </div>
 
-    <button
-      class="back-button"
-      type="button"
-      (click)="volver()">
-
+    <button class="back-button" type="button" (click)="volver()">
       <span>←</span>
       <span>Volver al dashboard</span>
-
     </button>
 
   </header>
 
 
+  @if (error) {
+    <div class="alert-error">
+      <span>⚠️ {{ error }}</span>
+      <button type="button" (click)="error = ''">✕</button>
+    </div>
+  }
+
+
   <section class="summary-grid">
 
     <div class="summary-card">
-
-      <div class="summary-icon">
-        📚
-      </div>
-
+      <div class="summary-icon">📚</div>
       <div>
-
         <strong>{{ cursos.length }}</strong>
-
-        <span>
-          Cursos registrados
-        </span>
-
+        <span>Cursos registrados</span>
       </div>
-
     </div>
 
-
     <div class="summary-card">
-
-      <div class="summary-icon">
-        🏫
-      </div>
-
+      <div class="summary-icon">✓</div>
       <div>
-
-        <strong>3</strong>
-
-        <span>
-          Niveles educativos
-        </span>
-
+        <strong>{{ cursos.length }}</strong>
+        <span>Cursos activos</span>
       </div>
-
     </div>
 
-
     <div class="summary-card">
-
-      <div class="summary-icon">
-        ⏱️
-      </div>
-
+      <div class="summary-icon">🏫</div>
       <div>
-
-        <strong>
-          {{ totalHoras() }}
-        </strong>
-
-        <span>
-          Horas semanales
-        </span>
-
+        <strong>{{ cursos.length }}</strong>
+        <span>Total en el sistema</span>
       </div>
-
     </div>
 
   </section>
@@ -97,167 +56,135 @@
   <section class="courses-card">
 
     <div class="card-header">
-
       <div>
-
-        <span class="section-label">
-          REGISTRO ACADÉMICO
-        </span>
-
-        <h2>
-          Lista de cursos
-        </h2>
-
-        <p>
-          Información de los cursos disponibles en la institución.
-        </p>
-
+        <span class="section-label">REGISTRO ACADÉMICO</span>
+        <h2>Lista de cursos</h2>
+        <p>Información de los cursos disponibles en la institución.</p>
       </div>
 
-
-      <button
-        class="new-button"
-        type="button">
-
+      <button class="new-button" type="button" (click)="abrirCrear()">
         <span>＋</span>
-
-        <span>
-          Nuevo curso
-        </span>
-
+        <span>Nuevo curso</span>
       </button>
-
     </div>
 
 
-    <div class="table-container">
+    @if (cargando) {
+      <div class="loading">Cargando...</div>
+    }
 
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>ID</th>
-
-            <th>Curso</th>
-
-            <th>Nivel</th>
-
-            <th>Grado</th>
-
-            <th>Horas semanales</th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          @for (
-            curso of cursos;
-            track curso.id
-          ) {
-
+    @if (!cargando) {
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-
-              <td>
-
-                <span class="course-id">
-                  #{{ curso.id }}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <div class="course-name">
-
-                  <div class="course-avatar">
-                    📚
-                  </div>
-
-                  <span>
-                    {{ curso.nombre }}
-                  </span>
-
-                </div>
-
-              </td>
-
-
-              <td>
-
-                <span class="level-badge">
-                  {{ curso.nivel }}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <span class="grade-badge">
-                  {{ curso.grado }}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <div class="hours">
-
-                  <span class="clock-icon">
-                    ⏱
-                  </span>
-
-                  <span>
-                    {{ curso.horas }} horas
-                  </span>
-
-                </div>
-
-              </td>
-
+              <th>ID</th>
+              <th>Curso</th>
+              <th>Descripción</th>
+              <th>Nivel educativo</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
+          </thead>
+          <tbody>
+            @for (curso of cursos; track curso.id) {
+              <tr>
+                <td><span class="course-id">#{{ curso.id }}</span></td>
+                <td>
+                  <div class="course-name">
+                    <div class="course-avatar">📚</div>
+                    <span>{{ curso.nombre }}</span>
+                  </div>
+                </td>
+                <td>{{ curso.descripcion }}</td>
+                <td>
+                  <span class="level-badge">{{ curso.nivelEducativo }}</span>
+                </td>
+                <td>
+                  <span class="grade-badge">{{ curso.estado }}</span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-edit" type="button" (click)="abrirEditar(curso)">✏️ Editar</button>
+                    <button class="btn-delete" type="button" (click)="eliminar(curso.id!)">🗑️ Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+            @empty {
+              <tr>
+                <td colspan="6" class="empty-row">No hay cursos registrados.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
 
-          }
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-    <div class="table-footer">
-
-      <span>
-        Mostrando {{ cursos.length }} cursos registrados
-      </span>
-
-      <span>
-        Corporación Virgen de Guadalupe
-      </span>
-
-    </div>
+      <div class="table-footer">
+        <span>Mostrando {{ cursos.length }} cursos registrados</span>
+        <span>Corporación Virgen de Guadalupe</span>
+      </div>
+    }
 
   </section>
 
 
   <footer class="footer">
-
-    <span>
-      Corporación Virgen de Guadalupe
-    </span>
-
-    <span>
-      Sistema de Gestión y Seguimiento Académico
-    </span>
-
+    <span>Corporación Virgen de Guadalupe</span>
+    <span>Sistema de Gestión y Seguimiento Académico</span>
   </footer>
+
+
+  <!-- MODAL -->
+  @if (mostrarModal) {
+    <div class="modal-backdrop" (click)="cerrarModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+          <h3>{{ modoEdicion ? 'Editar curso' : 'Nuevo curso' }}</h3>
+          <button type="button" class="modal-close" (click)="cerrarModal()">✕</button>
+        </div>
+
+        <form class="modal-form" (ngSubmit)="guardar()">
+
+          <div class="campo">
+            <label>Nombre del curso *</label>
+            <input type="text" [(ngModel)]="form.nombre" name="nombre" required placeholder="Ej: Matemática">
+          </div>
+
+          <div class="campo">
+            <label>Descripción</label>
+            <input type="text" [(ngModel)]="form.descripcion" name="descripcion" placeholder="Descripción del curso">
+          </div>
+
+          <div class="form-row">
+            <div class="campo">
+              <label>Nivel educativo</label>
+              <select [(ngModel)]="form.nivelEducativo" name="nivelEducativo">
+                <option value="">Seleccionar</option>
+                <option value="Primaria">Primaria</option>
+                <option value="Secundaria">Secundaria</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Estado *</label>
+              <select [(ngModel)]="form.estado" name="estado" required>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" class="btn-save" [disabled]="guardando">
+              {{ guardando ? 'Guardando...' : (modoEdicion ? 'Actualizar' : 'Guardar') }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  }
 
 </div>

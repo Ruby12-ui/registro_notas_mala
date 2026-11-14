@@ -21,9 +21,9 @@ spring:
         dialect: org.hibernate.dialect.SQLServerDialect
 
   jackson:
-    serialization:
-      write-dates-as-timestamps: false
-    date-format: yyyy-MM-dd
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: false
 
 springdoc:
   api-docs:

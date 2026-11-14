@@ -1,10 +1,7 @@
-
 USE Gestion_Academica;
 GO
 
--- =============================================
--- 1. PERIODOS ACADEMICOS
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='academic_period' AND xtype='U')
 CREATE TABLE academic_period (
     academic_period_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -15,9 +12,7 @@ CREATE TABLE academic_period (
 );
 GO
 
--- =============================================
--- 2. GRADOS
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='grade' AND xtype='U')
 CREATE TABLE grade (
     grade_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -28,9 +23,7 @@ CREATE TABLE grade (
 );
 GO
 
--- =============================================
--- 3. SECCIONES
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='section' AND xtype='U')
 CREATE TABLE section (
     section_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(10) NOT NULL,
@@ -41,9 +34,7 @@ CREATE TABLE section (
 );
 GO
 
--- =============================================
--- 4. DOCENTES
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='teacher' AND xtype='U')
 CREATE TABLE teacher (
     teacher_id INT IDENTITY(1,1) PRIMARY KEY,
     document_type VARCHAR(10) NOT NULL DEFAULT 'DNI',
@@ -58,9 +49,7 @@ CREATE TABLE teacher (
 );
 GO
 
--- =============================================
--- 5. ESTUDIANTES
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='student' AND xtype='U')
 CREATE TABLE student (
     student_id INT IDENTITY(1,1) PRIMARY KEY,
     student_code VARCHAR(20) NOT NULL UNIQUE,
@@ -82,9 +71,7 @@ CREATE TABLE student (
 );
 GO
 
--- =============================================
--- 6. APODERADOS
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='guardian' AND xtype='U')
 CREATE TABLE guardian (
     guardian_id INT IDENTITY(1,1) PRIMARY KEY,
     document_number VARCHAR(20) NOT NULL UNIQUE,
@@ -96,6 +83,7 @@ CREATE TABLE guardian (
 );
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='student_guardian' AND xtype='U')
 CREATE TABLE student_guardian (
     student_id INT NOT NULL,
     guardian_id INT NOT NULL,
@@ -109,9 +97,7 @@ CREATE TABLE student_guardian (
 );
 GO
 
--- =============================================
--- 7. CURSOS
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='course' AND xtype='U')
 CREATE TABLE course (
     course_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -121,9 +107,7 @@ CREATE TABLE course (
 );
 GO
 
--- =============================================
--- 8. ASIGNACIONES DOCENTE-CURSO
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='teacher_assignment' AND xtype='U')
 CREATE TABLE teacher_assignment (
     assigment_id INT IDENTITY(1,1) PRIMARY KEY,
     teacher_id INT NOT NULL,
@@ -144,9 +128,7 @@ CREATE TABLE teacher_assignment (
 );
 GO
 
--- =============================================
--- 9. REGISTRO DE NOTAS
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='grade_record' AND xtype='U')
 CREATE TABLE grade_record (
     grade_record_id INT IDENTITY(1,1) PRIMARY KEY,
     student_id INT NOT NULL,
@@ -166,9 +148,7 @@ CREATE TABLE grade_record (
 );
 GO
 
--- =============================================
--- 10. ASISTENCIA DE ESTUDIANTES
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='attendance' AND xtype='U')
 CREATE TABLE attendance (
     attendance_id INT IDENTITY(1,1) PRIMARY KEY,
     student_id INT NOT NULL,
@@ -188,9 +168,7 @@ CREATE TABLE attendance (
 );
 GO
 
--- =============================================
--- 11. ASISTENCIA DE DOCENTES
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='teacher_attendance' AND xtype='U')
 CREATE TABLE teacher_attendance (
     teacher_attendance_id INT IDENTITY(1,1) PRIMARY KEY,
     teacher_id INT NOT NULL,
@@ -206,9 +184,7 @@ CREATE TABLE teacher_attendance (
 );
 GO
 
--- =============================================
--- 12. USUARIOS Y ROLES
--- =============================================
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='users' AND xtype='U')
 CREATE TABLE users (
     user_id INT IDENTITY(1,1) PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -229,13 +205,4 @@ CREATE TABLE users (
         NOT (teacher_id IS NOT NULL AND student_id IS NOT NULL)
     )
 );
-GO
-
--- =============================================
--- 13. VERIFICAR TABLAS CREADAS
--- =============================================
-SELECT TABLE_NAME
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_TYPE = 'BASE TABLE'
-ORDER BY TABLE_NAME;
 GO

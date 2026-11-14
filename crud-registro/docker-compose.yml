@@ -8,10 +8,9 @@ services:
       SA_PASSWORD: "crud123!"
       MSSQL_PID: "Developer"
     ports:
-      - "1433:1433"
+      - "1434:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
-      - ./src/main/resources/sql/init:/docker-entrypoint-initdb
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'crud123!' -C -Q 'SELECT 1' || exit 1"]
       interval: 10s
@@ -34,7 +33,7 @@ services:
         /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P 'crud123!' -C -Q 'CREATE DATABASE Gestion_Academica' 2>/dev/null || true &&
         /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P 'crud123!' -C -i /sql/db.sql &&
         /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P 'crud123!' -C -i /sql/data.sql &&
-        echo '✅ Base de datos inicializada correctamente'
+        echo 'Base de datos inicializada correctamente'
       "
     restart: "no"
 
@@ -53,7 +52,7 @@ services:
       SPRING_DATASOURCE_USERNAME: sa
       DB_PASSWORD: "crud123!"
     ports:
-      - "8080:8080"
+      - "8081:8080"
     restart: on-failure
 
 volumes:

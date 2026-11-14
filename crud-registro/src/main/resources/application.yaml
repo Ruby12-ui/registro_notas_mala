@@ -6,8 +6,8 @@ spring:
     name: crud-registro
 
   datasource:
-    url: jdbc:sqlserver://localhost:1434;databaseName=Gestion_Academica;encrypt=true;trustServerCertificate=true
-    username: sa
+    url: ${SPRING_DATASOURCE_URL:jdbc:sqlserver://localhost:1433;databaseName=Gestion_Academica;encrypt=true;trustServerCertificate=true}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
     password: ${DB_PASSWORD:crud123!}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
@@ -18,6 +18,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.SQLServerDialect
 
   jackson:
     serialization:

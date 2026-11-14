@@ -44,6 +44,8 @@ public class EstudianteServiceImpl implements EstudianteService {
 
         if (estudiante.getEstado() == null || estudiante.getEstado().isBlank()) {
             estudiante.setEstado("ACTIVO");
+        } else {
+            estudiante.setEstado(estudiante.getEstado().toUpperCase());
         }
 
         return estudianteRepository.save(estudiante);
@@ -68,7 +70,7 @@ public class EstudianteServiceImpl implements EstudianteService {
             }
 
             if (datos.getEstado() != null && !datos.getEstado().isBlank()) {
-                estudiante.setEstado(datos.getEstado());
+                estudiante.setEstado(datos.getEstado().toUpperCase());
             }
 
             return estudianteRepository.save(estudiante);

@@ -47,6 +47,11 @@ public class CursoServiceImpl implements CursoService {
             curso.setEstado("ACTIVO");
         }
 
+        if (curso.getNivelEducativo() != null) {
+            curso.setNivelEducativo(
+                    curso.getNivelEducativo().toUpperCase());
+        }
+
         return cursoRepository.save(curso);
     }
 
@@ -56,7 +61,10 @@ public class CursoServiceImpl implements CursoService {
 
         existente.setNombre(datos.getNombre());
         existente.setDescripcion(datos.getDescripcion());
-        existente.setNivelEducativo(datos.getNivelEducativo());
+        existente.setNivelEducativo(
+                datos.getNivelEducativo() != null
+                        ? datos.getNivelEducativo().toUpperCase()
+                        : null);
         existente.setEstado(datos.getEstado());
 
         return cursoRepository.save(existente);

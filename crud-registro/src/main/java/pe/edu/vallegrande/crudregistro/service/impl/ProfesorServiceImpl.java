@@ -37,6 +37,8 @@ public class ProfesorServiceImpl implements ProfesorService {
         if (profesor.getEstado() == null
                 || profesor.getEstado().isBlank()) {
             profesor.setEstado("ACTIVO");
+        } else {
+            profesor.setEstado(profesor.getEstado().toUpperCase());
         }
 
         return profesorRepository.save(profesor);
@@ -65,7 +67,10 @@ public class ProfesorServiceImpl implements ProfesorService {
                     profesor.setFechaContratacion(
                             datos.getFechaContratacion()
                     );
-                    profesor.setEstado(datos.getEstado());
+                    profesor.setEstado(
+                            datos.getEstado() != null
+                                    ? datos.getEstado().toUpperCase()
+                                    : "ACTIVO");
 
                     return profesorRepository.save(profesor);
                 });

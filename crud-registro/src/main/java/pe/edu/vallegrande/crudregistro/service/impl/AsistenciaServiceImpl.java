@@ -51,6 +51,9 @@ public class AsistenciaServiceImpl implements AsistenciaService {
         if (asistencia.getEstado() == null
                 || asistencia.getEstado().isBlank()) {
             asistencia.setEstado("PRESENTE");
+        } else {
+            asistencia.setEstado(
+                    normalizarEstadoAsistencia(asistencia.getEstado()));
         }
 
         return asistenciaRepository.save(asistencia);
@@ -66,7 +69,8 @@ public class AsistenciaServiceImpl implements AsistenciaService {
                 datos.getPeriodoAcademicoId());
         existente.setFechaAsistencia(
                 datos.getFechaAsistencia());
-        existente.setEstado(datos.getEstado());
+        existente.setEstado(
+                normalizarEstadoAsistencia(datos.getEstado()));
         existente.setObservaciones(datos.getObservaciones());
 
         return asistenciaRepository.save(existente);
@@ -76,5 +80,16 @@ public class AsistenciaServiceImpl implements AsistenciaService {
     public void eliminar(Integer id) {
         Asistencia asistencia = buscarPorId(id);
         asistenciaRepository.delete(asistencia);
+    }
+
+    private String normalizarEstadoAsistencia(String estado) {
+        if (estado == null) return "PRESENTE";
+        return switch (estado.trim().toUpperCase()) {
+            case "PRESENTE"     -> "PRESENTE";
+            case "FALTA"        -> "FALTA";
+            case "TARDANZA"     -> "TARDANZA";
+            case "JUSTIFICADO"  -> "JUSTIFICADO";
+            default             -> estado.toUpperCase();
+        };
     }
 }

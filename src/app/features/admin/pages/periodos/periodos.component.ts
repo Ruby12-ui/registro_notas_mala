@@ -104,11 +104,11 @@ export class PeriodosComponent implements OnInit {
   }
 
   cantidadActivos(): number {
-    return this.periodos.filter(p => p.estado === 'Activo').length;
+    return this.periodos.filter(p => p.estado?.toUpperCase() === 'ACTIVO').length;
   }
 
   cantidadFinalizados(): number {
-    return this.periodos.filter(p => p.estado === 'Finalizado').length;
+    return this.periodos.filter(p => p.estado?.toUpperCase() === 'FINALIZADO').length;
   }
 
   volver(): void {

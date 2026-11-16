@@ -5,8 +5,9 @@ export interface Profesor {
   nombres: string;
   apellidos: string;
   especialidad?: string;
+  nivel?: string;
   telefono?: string;
-  email?: string;
+  correo?: string;       // el backend devuelve 'correo', no 'email'
   fechaContratacion?: string;
-  estado: string;
+  estado?: string;
 }

@@ -90,8 +90,8 @@
             @for (estudiante of estudiantes; track estudiante.id) {
               <tr>
                 <td><span class="student-id">#{{ estudiante.id }}</span></td>
-                <td>{{ estudiante.codigoEstudiante }}</td>
-                <td>{{ estudiante.dni }}</td>
+                <td>{{ estudiante.codigo ?? estudiante.codigoEstudiante }}</td>
+                <td>{{ estudiante.numeroDocumento }}</td>
                 <td>
                   <div class="student-name">
                     <div class="student-avatar">{{ estudiante.nombres.charAt(0) }}</div>
@@ -154,8 +154,27 @@
               <input type="text" [(ngModel)]="form.codigoEstudiante" name="codigoEstudiante" required placeholder="Ej: EST-001">
             </div>
             <div class="campo">
-              <label>DNI *</label>
-              <input type="text" [(ngModel)]="form.dni" name="dni" required placeholder="Ej: 74561234">
+              <label>Tipo documento</label>
+              <select [(ngModel)]="form.tipoDocumento" name="tipoDocumento">
+                <option value="DNI">DNI</option>
+                <option value="CE">Carnet de extranjería</option>
+                <option value="PASAPORTE">Pasaporte</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="campo">
+              <label>Número de documento *</label>
+              <input type="text" [(ngModel)]="form.numeroDocumento" name="numeroDocumento" required placeholder="Ej: 74561234">
+            </div>
+            <div class="campo">
+              <label>Género</label>
+              <select [(ngModel)]="form.genero" name="genero">
+                <option value="">Seleccionar</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
             </div>
           </div>
 
@@ -176,43 +195,45 @@
               <input type="date" [(ngModel)]="form.fechaNacimiento" name="fechaNacimiento">
             </div>
             <div class="campo">
-              <label>Género</label>
-              <select [(ngModel)]="form.genero" name="genero">
+              <label>Nivel educativo</label>
+              <select [(ngModel)]="form.nivelEducativo" name="nivelEducativo">
                 <option value="">Seleccionar</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
+                <option value="PRIMARIA">Primaria</option>
+                <option value="SECUNDARIA">Secundaria</option>
               </select>
             </div>
           </div>
 
           <div class="form-row">
             <div class="campo">
-              <label>ID Grado *</label>
-              <input type="number" [(ngModel)]="form.gradoId" name="gradoId" required min="1">
+              <label>ID Grado</label>
+              <input type="number" [(ngModel)]="form.gradoId" name="gradoId" min="1" placeholder="Ej: 1">
             </div>
             <div class="campo">
-              <label>ID Sección *</label>
-              <input type="number" [(ngModel)]="form.seccionId" name="seccionId" required min="1">
+              <label>ID Sección</label>
+              <input type="number" [(ngModel)]="form.seccionId" name="seccionId" min="1" placeholder="Ej: 1">
             </div>
           </div>
 
           <div class="form-row">
             <div class="campo">
-              <label>Fecha de matrícula *</label>
-              <input type="date" [(ngModel)]="form.fechaMatricula" name="fechaMatricula" required>
+              <label>Nombre del apoderado</label>
+              <input type="text" [(ngModel)]="form.nombreApoderado" name="nombreApoderado" placeholder="Nombre completo">
             </div>
             <div class="campo">
-              <label>Estado *</label>
-              <select [(ngModel)]="form.estado" name="estado" required>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-              </select>
+              <label>Teléfono del apoderado</label>
+              <input type="text" [(ngModel)]="form.telefonoApoderado" name="telefonoApoderado" placeholder="Ej: 987654321">
             </div>
           </div>
 
           <div class="campo">
-            <label>Dirección</label>
-            <input type="text" [(ngModel)]="form.direccion" name="direccion" placeholder="Dirección">
+            <label>Relación del apoderado</label>
+            <select [(ngModel)]="form.relacionApoderado" name="relacionApoderado">
+              <option value="">Seleccionar</option>
+              <option value="PADRE">Padre</option>
+              <option value="MADRE">Madre</option>
+              <option value="TUTOR">Tutor</option>
+            </select>
           </div>
 
           <div class="modal-actions">

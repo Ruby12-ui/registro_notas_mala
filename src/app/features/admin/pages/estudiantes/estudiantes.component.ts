@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EstudiantesService } from '../../services/estudiantes.service';
-import { Estudiante } from '../../interfaces/estudiante.interface';
+import { Estudiante, EstudianteRequest } from '../../interfaces/estudiante.interface';
 
 @Component({
   selector: 'app-estudiantes',
@@ -21,8 +21,9 @@ export class EstudiantesComponent implements OnInit {
   mostrarModal = false;
   modoEdicion = false;
   guardando = false;
+  idEditando?: number;
 
-  form: Estudiante = this.formVacio();
+  form: EstudianteRequest = this.formVacio();
 
   constructor(
     private router: Router,
@@ -50,12 +51,28 @@ export class EstudiantesComponent implements OnInit {
 
   abrirCrear(): void {
     this.form = this.formVacio();
+    this.idEditando = undefined;
     this.modoEdicion = false;
     this.mostrarModal = true;
   }
 
   abrirEditar(est: Estudiante): void {
-    this.form = { ...est };
+    this.idEditando = est.id;
+    this.form = {
+      codigoEstudiante: est.codigo ?? est.codigoEstudiante ?? '',
+      tipoDocumento:    est.tipoDocumento ?? 'DNI',
+      numeroDocumento:  est.numeroDocumento,
+      nombres:          est.nombres,
+      apellidos:        est.apellidos,
+      fechaNacimiento:  est.fechaNacimiento ?? '',
+      genero:           est.genero ?? '',
+      nombreApoderado:  est.nombreApoderado ?? '',
+      telefonoApoderado: est.telefonoApoderado ?? '',
+      relacionApoderado: est.relacionApoderado ?? '',
+      nivelEducativo:   est.nivelEducativo ?? '',
+      gradoId:          est.gradoId,
+      seccionId:        est.seccionId,
+    };
     this.modoEdicion = true;
     this.mostrarModal = true;
   }
@@ -66,15 +83,15 @@ export class EstudiantesComponent implements OnInit {
 
   guardar(): void {
     this.guardando = true;
-    if (this.modoEdicion && this.form.id) {
-      this.estudiantesService.actualizar(this.form.id, this.form).subscribe({
+    if (this.modoEdicion && this.idEditando) {
+      this.estudiantesService.actualizar(this.idEditando, this.form).subscribe({
         next: () => {
           this.guardando = false;
           this.mostrarModal = false;
           this.cargar();
         },
-        error: () => {
-          this.error = 'Error al actualizar el estudiante.';
+        error: (err) => {
+          this.error = err?.error?.message ?? 'Error al actualizar el estudiante.';
           this.guardando = false;
         }
       });
@@ -85,8 +102,8 @@ export class EstudiantesComponent implements OnInit {
           this.mostrarModal = false;
           this.cargar();
         },
-        error: () => {
-          this.error = 'Error al crear el estudiante.';
+        error: (err) => {
+          this.error = err?.error?.message ?? 'Error al crear el estudiante.';
           this.guardando = false;
         }
       });
@@ -104,7 +121,7 @@ export class EstudiantesComponent implements OnInit {
   }
 
   cantidadActivos(): number {
-    return this.estudiantes.filter(e => e.estado === 'Activo').length;
+    return this.estudiantes.filter(e => e.estado?.toUpperCase() === 'ACTIVO').length;
   }
 
   nombreCompleto(e: Estudiante): string {
@@ -115,19 +132,21 @@ export class EstudiantesComponent implements OnInit {
     this.router.navigate(['/admin/dashboard']);
   }
 
-  private formVacio(): Estudiante {
+  private formVacio(): EstudianteRequest {
     return {
       codigoEstudiante: '',
-      dni: '',
-      nombres: '',
-      apellidos: '',
-      fechaNacimiento: '',
-      genero: '',
-      direccion: '',
-      gradoId: 1,
-      seccionId: 1,
-      fechaMatricula: new Date().toISOString().split('T')[0],
-      estado: 'Activo'
+      tipoDocumento:    'DNI',
+      numeroDocumento:  '',
+      nombres:          '',
+      apellidos:        '',
+      fechaNacimiento:  '',
+      genero:           '',
+      nombreApoderado:  '',
+      telefonoApoderado: '',
+      relacionApoderado: '',
+      nivelEducativo:   '',
+      gradoId:          undefined,
+      seccionId:        undefined,
     };
   }
 }

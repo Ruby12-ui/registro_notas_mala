@@ -111,8 +111,8 @@ export class CursosComponent implements OnInit {
     return {
       nombre: '',
       descripcion: '',
-      nivelEducativo: '',
-      estado: 'Activo'
+      nivel: '',
+      estado: 'ACTIVO'
     };
   }
 }

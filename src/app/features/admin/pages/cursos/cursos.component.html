@@ -98,7 +98,7 @@
                 </td>
                 <td>{{ curso.descripcion }}</td>
                 <td>
-                  <span class="level-badge">{{ curso.nivelEducativo }}</span>
+                  <span class="level-badge">{{ curso.nivel }}</span>
                 </td>
                 <td>
                   <span class="grade-badge">{{ curso.estado }}</span>
@@ -160,7 +160,7 @@
           <div class="form-row">
             <div class="campo">
               <label>Nivel educativo</label>
-              <select [(ngModel)]="form.nivelEducativo" name="nivelEducativo">
+              <select [(ngModel)]="form.nivel" name="nivel">
                 <option value="">Seleccionar</option>
                 <option value="Primaria">Primaria</option>
                 <option value="Secundaria">Secundaria</option>

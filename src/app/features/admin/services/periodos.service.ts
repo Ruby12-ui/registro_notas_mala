@@ -13,7 +13,7 @@ export class PeriodosService {
     private http: HttpClient,
     private api: ApiService
   ) {
-    this.url = `${this.api.baseUrl}/periodos-academicos`;
+    this.url = `${this.api.baseUrl}/periodos`;
   }
 
   listar(): Observable<Periodo[]> {

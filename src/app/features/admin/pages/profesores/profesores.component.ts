@@ -104,7 +104,7 @@ export class ProfesoresComponent implements OnInit {
   }
 
   cantidadActivos(): number {
-    return this.profesores.filter(p => p.estado === 'Activo').length;
+    return this.profesores.filter(p => p.estado?.toUpperCase() === 'ACTIVO').length;
   }
 
   cantidadEspecialidades(): number {
@@ -127,9 +127,9 @@ export class ProfesoresComponent implements OnInit {
       apellidos: '',
       especialidad: '',
       telefono: '',
-      email: '',
+      correo: '',
       fechaContratacion: '',
-      estado: 'Activo'
+      estado: 'ACTIVO'
     };
   }
 }

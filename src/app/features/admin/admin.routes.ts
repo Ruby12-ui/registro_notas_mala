@@ -83,6 +83,15 @@ export const ADMIN_ROUTES: Routes = [
   },
 
   {
+    path: 'grados',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN'] },
+    loadComponent: () =>
+      import('./pages/grados/grados.component')
+        .then(m => m.GradosComponent)
+  },
+
+  {
     path: 'periodos',
 
     canActivate: [

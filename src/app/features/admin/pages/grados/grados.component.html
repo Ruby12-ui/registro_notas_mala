@@ -1,0 +1,147 @@
+<div class="grados-page">
+
+  <header class="top-header">
+    <div class="header-info">
+      <span class="breadcrumb">ADMINISTRACIÓN / GRADOS</span>
+      <h1>Gestión de grados</h1>
+      <p>Consulta y administra los grados académicos registrados.</p>
+    </div>
+    <button class="back-button" type="button" (click)="volver()">
+      <span>←</span>
+      <span>Volver al dashboard</span>
+    </button>
+  </header>
+
+  @if (error) {
+    <div class="alert-error">
+      <span>⚠️ {{ error }}</span>
+      <button type="button" (click)="error = ''">✕</button>
+    </div>
+  }
+
+  <section class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-icon">🎓</div>
+      <div>
+        <strong>{{ grados.length }}</strong>
+        <span>Grados registrados</span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-icon">📗</div>
+      <div>
+        <strong>{{ contarPorNivel('PRIMARIA') }}</strong>
+        <span>Grados de Primaria</span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-icon">📘</div>
+      <div>
+        <strong>{{ contarPorNivel('SECUNDARIA') }}</strong>
+        <span>Grados de Secundaria</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="grados-card">
+    <div class="card-header">
+      <div>
+        <span class="section-label">REGISTRO ACADÉMICO</span>
+        <h2>Lista de grados</h2>
+        <p>Información de los grados disponibles en la institución.</p>
+      </div>
+      <button class="new-button" type="button" (click)="abrirCrear()">
+        <span>＋</span>
+        <span>Nuevo grado</span>
+      </button>
+    </div>
+
+    @if (cargando) {
+      <div class="loading">Cargando...</div>
+    }
+
+    @if (!cargando) {
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Nivel educativo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (grado of grados; track grado.id) {
+              <tr>
+                <td><span class="grado-id">#{{ grado.id }}</span></td>
+                <td>
+                  <div class="grado-name">
+                    <div class="grado-avatar">🎓</div>
+                    <span>{{ grado.nombre }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="nivel-badge" [class.primaria]="grado.nivel === 'PRIMARIA'" [class.secundaria]="grado.nivel === 'SECUNDARIA'">
+                    {{ grado.nivel }}
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-edit" type="button" (click)="abrirEditar(grado)">✏️ Editar</button>
+                    <button class="btn-delete" type="button" (click)="eliminar(grado.id!)">🗑️ Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+            @empty {
+              <tr>
+                <td colspan="4" class="empty-row">No hay grados registrados.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span>Mostrando {{ grados.length }} grados registrados</span>
+        <span>Corporación Virgen de Guadalupe</span>
+      </div>
+    }
+  </section>
+
+  <footer class="footer">
+    <span>Corporación Virgen de Guadalupe</span>
+    <span>Sistema de Gestión y Seguimiento Académico</span>
+  </footer>
+
+  @if (mostrarModal) {
+    <div class="modal-backdrop" (click)="cerrarModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>{{ modoEdicion ? 'Editar grado' : 'Nuevo grado' }}</h3>
+          <button type="button" class="modal-close" (click)="cerrarModal()">✕</button>
+        </div>
+        <form class="modal-form" (ngSubmit)="guardar()">
+          <div class="campo">
+            <label>Nombre del grado *</label>
+            <input type="text" [(ngModel)]="form.nombre" name="nombre" required placeholder="Ej: 1er Grado">
+          </div>
+          <div class="campo">
+            <label>Nivel educativo *</label>
+            <select [(ngModel)]="form.nivel" name="nivel" required>
+              <option value="PRIMARIA">Primaria</option>
+              <option value="SECUNDARIA">Secundaria</option>
+            </select>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" class="btn-save" [disabled]="guardando">
+              {{ guardando ? 'Guardando...' : (modoEdicion ? 'Actualizar' : 'Guardar') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+</div>

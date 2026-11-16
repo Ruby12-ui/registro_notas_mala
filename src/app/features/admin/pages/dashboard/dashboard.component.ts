@@ -45,6 +45,10 @@ export class DashboardComponent {
 
   }
 
+  irGrados(): void {
+    this.router.navigate(['/admin/grados']);
+  }
+
   irPeriodos(): void {
 
     this.router.navigate([

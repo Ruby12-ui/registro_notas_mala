@@ -59,6 +59,14 @@
       <button
         class="menu-button"
         type="button"
+        (click)="irGrados()">
+        <span class="menu-icon">🎓</span>
+        <span>Grados</span>
+      </button>
+
+      <button
+        class="menu-button"
+        type="button"
         (click)="irPeriodos()">
 
         <span class="menu-icon">📅</span>
@@ -383,6 +391,18 @@
 
         </button>
 
+
+        <button
+          class="module-card"
+          type="button"
+          (click)="irGrados()">
+          <div class="module-icon">🎓</div>
+          <div class="module-content">
+            <h4>Grados</h4>
+            <p>Gestionar los grados y niveles educativos de la institución.</p>
+          </div>
+          <span class="module-arrow">›</span>
+        </button>
 
         <button
           class="module-card"

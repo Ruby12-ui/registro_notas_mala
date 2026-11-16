@@ -4,6 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { NotasService, Nota } from '../../services/notas.service';
+import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../../../../core/services/api.service';
+
+interface Estudiante {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  codigo?: string;
+  numeroDocumento?: string;
+}
 
 interface FilaNota {
   estudianteId: number;
@@ -12,6 +22,7 @@ interface FilaNota {
   notaId?: number;
   guardado: boolean;
   guardando: boolean;
+  error: string;
 }
 
 @Component({
@@ -23,130 +34,130 @@ interface FilaNota {
 })
 export class RegistrarNotasComponent implements OnInit {
 
-  curso = 'Matemática';
-  grado = '5to de Secundaria';
-  seccion = 'A';
-  periodo = 'Bimestre I';
-
-  asignacionId = 1;
+  asignacionId    = 1;
   periodoAcademicoId = 1;
-  nombreEvaluacion = 'Bimestre I';
-  fechaEvaluacion = new Date().toISOString().split('T')[0];
+  nombreEvaluacion   = 'Bimestre I';
+  fechaEvaluacion    = new Date().toISOString().split('T')[0];
 
-  filas: FilaNota[] = [
-    { estudianteId: 1, nombreEstudiante: 'Ana Torres', nota: 0, guardado: false, guardando: false },
-    { estudianteId: 2, nombreEstudiante: 'María López', nota: 0, guardado: false, guardando: false },
-    { estudianteId: 3, nombreEstudiante: 'Carlos Pérez', nota: 0, guardado: false, guardando: false },
-    { estudianteId: 4, nombreEstudiante: 'Lucía Ramírez', nota: 0, guardado: false, guardando: false },
-    { estudianteId: 5, nombreEstudiante: 'Diego Mendoza', nota: 0, guardado: false, guardando: false }
-  ];
-
-  mensaje = '';
-  error = '';
-  cargando = false;
+  filas: FilaNota[] = [];
+  mensaje    = '';
+  error      = '';
+  cargando   = false;
   guardandoTodo = false;
-
-  notasExistentes: Nota[] = [];
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notasService: NotasService
+    private notasService: NotasService,
+    private http: HttpClient,
+    private api: ApiService
   ) {}
 
   ngOnInit(): void {
-    this.cargarNotasExistentes();
+    this.cargarEstudiantes();
   }
 
-  cargarNotasExistentes(): void {
+  cargarEstudiantes(): void {
     this.cargando = true;
-    this.notasService.listar().subscribe({
-      next: (data) => {
-        this.notasExistentes = data;
-        this.filas.forEach(fila => {
-          const existente = data.find(
-            n => n.estudianteId === fila.estudianteId &&
-                 n.asignacionId === this.asignacionId &&
-                 n.periodoAcademicoId === this.periodoAcademicoId
-          );
-          if (existente) {
-            fila.nota = Number(existente.nota);
-            fila.notaId = existente.id;
-            fila.guardado = true;
-          }
-        });
-        this.cargando = false;
+    this.error    = '';
+    this.http.get<Estudiante[]>(`${this.api.baseUrl}/estudiantes`).subscribe({
+      next: (estudiantes) => {
+        this.filas = estudiantes.map(e => ({
+          estudianteId:    e.id,
+          nombreEstudiante: `${e.nombres} ${e.apellidos}`,
+          nota:    0,
+          guardado:  false,
+          guardando: false,
+          error:     ''
+        }));
+        this.cargarNotasExistentes();
       },
       error: () => {
+        this.error   = 'No se pudo cargar la lista de estudiantes.';
         this.cargando = false;
       }
     });
   }
 
+  cargarNotasExistentes(): void {
+    this.notasService.listarPorAsignacionYPeriodo(this.asignacionId, this.periodoAcademicoId).subscribe({
+      next: (notas) => {
+        notas.forEach(n => {
+          const fila = this.filas.find(f => f.estudianteId === n.estudianteId);
+          if (fila) {
+            fila.nota    = n.nota;
+            fila.notaId  = n.id;
+            fila.guardado = true;
+          }
+        });
+        this.cargando = false;
+      },
+      error: () => { this.cargando = false; }
+    });
+  }
+
+  recargar(): void {
+    this.filas.forEach(f => { f.guardado = false; f.notaId = undefined; f.error = ''; });
+    this.cargarNotasExistentes();
+  }
+
   guardarTodo(): void {
     this.guardandoTodo = true;
-    this.error = '';
+    this.error   = '';
     this.mensaje = '';
 
     let pendientes = this.filas.length;
-    let errores = 0;
+    let errores    = 0;
 
     this.filas.forEach(fila => {
       fila.guardando = true;
+      fila.error     = '';
+
       const payload: Nota = {
-        estudianteId: fila.estudianteId,
-        asignacionId: this.asignacionId,
+        estudianteId:      fila.estudianteId,
+        asignacionId:      this.asignacionId,
         periodoAcademicoId: this.periodoAcademicoId,
-        nombreEvaluacion: this.nombreEvaluacion,
-        nota: fila.nota,
-        fechaEvaluacion: this.fechaEvaluacion
+        nombreEvaluacion:  this.nombreEvaluacion,
+        nota:              fila.nota,
+        fechaEvaluacion:   this.fechaEvaluacion
       };
 
-      const operacion = fila.notaId
+      const op = fila.notaId
         ? this.notasService.actualizar(fila.notaId, { ...payload, id: fila.notaId })
         : this.notasService.crear(payload);
 
-      operacion.subscribe({
-        next: (resultado) => {
-          fila.notaId = resultado.id;
-          fila.guardado = true;
+      op.subscribe({
+        next: (res) => {
+          fila.notaId  = res.id;
+          fila.guardado  = true;
           fila.guardando = false;
-          pendientes--;
-          if (pendientes === 0) {
-            this.guardandoTodo = false;
-            if (errores === 0) {
-              this.mensaje = 'Calificaciones guardadas correctamente.';
-            } else {
-              this.error = `${errores} calificaciones no se pudieron guardar.`;
-            }
-          }
+          if (--pendientes === 0) this.finish(errores);
         },
-        error: () => {
+        error: (err) => {
           errores++;
           fila.guardando = false;
-          pendientes--;
-          if (pendientes === 0) {
-            this.guardandoTodo = false;
-            this.error = `${errores} calificaciones no se pudieron guardar.`;
-          }
+          fila.error     = err?.error?.message ?? 'Error al guardar.';
+          if (--pendientes === 0) this.finish(errores);
         }
       });
     });
   }
 
-  actualizarNota(fila: FilaNota, evento: Event): void {
-    const input = evento.target as HTMLInputElement;
-    const valor = Number(input.value);
-    if (valor >= 0 && valor <= 20) {
-      fila.nota = valor;
-      fila.guardado = false;
-    }
+  private finish(errores: number): void {
+    this.guardandoTodo = false;
+    if (errores === 0) this.mensaje = 'Todas las calificaciones se guardaron correctamente.';
+    else this.error = `${errores} calificación(es) no se pudieron guardar. Revisa los errores en la tabla.`;
   }
 
-  irDashboard(): void { this.router.navigate(['/profesor/dashboard']); }
-  irCursos(): void { this.router.navigate(['/profesor/mis-cursos']); }
-  irNotas(): void { this.router.navigate(['/profesor/registrar-notas']); }
+  actualizarNota(fila: FilaNota, evento: Event): void {
+    const val = Number((evento.target as HTMLInputElement).value);
+    if (val >= 0 && val <= 20) { fila.nota = val; fila.guardado = false; }
+  }
+
+  irDashboard():  void { this.router.navigate(['/profesor/dashboard']); }
+  irCursos():     void { this.router.navigate(['/profesor/mis-cursos']); }
+  irNotas():      void { this.router.navigate(['/profesor/registrar-notas']); }
   irAsistencia(): void { this.router.navigate(['/profesor/registrar-asistencia']); }
-  irPerfil(): void { this.router.navigate(['/profesor/mi-perfil']); }
+  irPerfil():     void { this.router.navigate(['/profesor/mi-perfil']); }
   cerrarSesion(): void { this.authService.logout(); }
 }

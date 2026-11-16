@@ -19,10 +19,7 @@ export class NotasService {
 
   private url: string;
 
-  constructor(
-    private http: HttpClient,
-    private api: ApiService
-  ) {
+  constructor(private http: HttpClient, private api: ApiService) {
     this.url = `${this.api.baseUrl}/notas`;
   }
 
@@ -30,8 +27,20 @@ export class NotasService {
     return this.http.get<Nota[]>(this.url);
   }
 
+  listarPorAsignacionYPeriodo(asignacionId: number, periodoId: number): Observable<Nota[]> {
+    return this.http.get<Nota[]>(`${this.url}?asignacionId=${asignacionId}&periodoId=${periodoId}`);
+  }
+
+  listarPorEstudiante(estudianteId: number): Observable<Nota[]> {
+    return this.http.get<Nota[]>(`${this.url}?estudianteId=${estudianteId}`);
+  }
+
   crear(nota: Nota): Observable<Nota> {
     return this.http.post<Nota>(this.url, nota);
+  }
+
+  crearLote(notas: Nota[]): Observable<Nota[]> {
+    return this.http.post<Nota[]>(`${this.url}/lote`, notas);
   }
 
   actualizar(id: number, nota: Nota): Observable<Nota> {

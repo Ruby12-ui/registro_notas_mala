@@ -1,7 +1,6 @@
 <div class="profesor-page">
 
   <aside class="sidebar">
-
     <div class="sidebar-brand">
       <div class="brand-icon">🎓</div>
       <div class="brand-text">
@@ -9,88 +8,44 @@
         <span>Virgen de Guadalupe</span>
       </div>
     </div>
-
     <div class="profile-box">
       <div class="profile-avatar">👨‍🏫</div>
-      <div class="profile-info">
-        <strong>Profesor Demo</strong>
-        <span>Docente</span>
-      </div>
+      <div class="profile-info"><strong>Profesor Demo</strong><span>Docente</span></div>
     </div>
-
     <div class="menu-title">MENÚ PRINCIPAL</div>
-
     <nav class="menu">
-      <button class="menu-item" type="button" (click)="irDashboard()">
-        <span class="menu-icon">🏠</span><span>Dashboard</span>
-      </button>
-      <button class="menu-item" type="button" (click)="irCursos()">
-        <span class="menu-icon">📚</span><span>Mis cursos</span>
-      </button>
-      <button class="menu-item active" type="button" (click)="irNotas()">
-        <span class="menu-icon">📝</span><span>Registrar notas</span>
-      </button>
-      <button class="menu-item" type="button" (click)="irAsistencia()">
-        <span class="menu-icon">📋</span><span>Registrar asistencia</span>
-      </button>
-      <button class="menu-item" type="button" (click)="irPerfil()">
-        <span class="menu-icon">👤</span><span>Mi perfil</span>
-      </button>
+      <button class="menu-item" type="button" (click)="irDashboard()"><span class="menu-icon">🏠</span><span>Dashboard</span></button>
+      <button class="menu-item" type="button" (click)="irCursos()"><span class="menu-icon">📚</span><span>Mis cursos</span></button>
+      <button class="menu-item active" type="button" (click)="irNotas()"><span class="menu-icon">📝</span><span>Registrar notas</span></button>
+      <button class="menu-item" type="button" (click)="irAsistencia()"><span class="menu-icon">📋</span><span>Registrar asistencia</span></button>
+      <button class="menu-item" type="button" (click)="irPerfil()"><span class="menu-icon">👤</span><span>Mi perfil</span></button>
     </nav>
-
     <div class="sidebar-bottom">
-      <div class="user-mini">
-        <div class="user-avatar">👨‍🏫</div>
-        <div>
-          <strong>Profesor Demo</strong>
-          <span>Docente</span>
-        </div>
-      </div>
-      <button class="logout-button" type="button" (click)="cerrarSesion()">
-        <span>🚪</span><span>Cerrar sesión</span>
-      </button>
+      <button class="logout-button" type="button" (click)="cerrarSesion()"><span>🚪</span><span>Cerrar sesión</span></button>
     </div>
-
   </aside>
-
 
   <main class="main-content">
 
     <div class="topbar">
       <div>
-        <div class="breadcrumb">
-          <span>PROFESOR</span><span>/</span><span>REGISTRAR NOTAS</span>
-        </div>
+        <div class="breadcrumb"><span>PROFESOR</span><span>/</span><span>REGISTRAR NOTAS</span></div>
         <h1>Registrar notas</h1>
-        <p>Registra y actualiza las calificaciones de tus estudiantes.</p>
-      </div>
-      <div class="status-pill">
-        <span class="status-dot"></span>
-        Sesión activa
+        <p>Registra y actualiza las calificaciones de los estudiantes.</p>
       </div>
     </div>
 
+    @if (mensaje) { <div class="alert-ok">✅ {{ mensaje }}</div> }
+    @if (error)   { <div class="alert-error">⚠️ {{ error }}</div> }
 
-    @if (mensaje) {
-      <div class="alert-ok">✅ {{ mensaje }}</div>
-    }
-    @if (error) {
-      <div class="alert-error">⚠️ {{ error }}</div>
-    }
-
-
+    <!-- Configuración de evaluación -->
     <section class="info-card">
       <div class="info-header">
-        <div>
-          <span class="section-label">CONFIGURACIÓN DE EVALUACIÓN</span>
-          <h2>{{ curso }}</h2>
-        </div>
-        <div class="course-badge">{{ periodo }}</div>
+        <span class="section-label">CONFIGURACIÓN DE EVALUACIÓN</span>
       </div>
-
       <div class="config-grid">
         <div class="campo">
-          <label>Nombre evaluación *</label>
+          <label>Nombre de evaluación *</label>
           <input type="text" [(ngModel)]="nombreEvaluacion" name="nombreEvaluacion" placeholder="Ej: Bimestre I">
         </div>
         <div class="campo">
@@ -99,93 +54,80 @@
         </div>
         <div class="campo">
           <label>ID Asignación docente *</label>
-          <input type="number" [(ngModel)]="asignacionId" name="asignacionId" min="1">
+          <input type="number" [(ngModel)]="asignacionId" name="asignacionId" min="1" (change)="recargar()">
         </div>
         <div class="campo">
           <label>ID Periodo académico *</label>
-          <input type="number" [(ngModel)]="periodoAcademicoId" name="periodoAcademicoId" min="1">
+          <input type="number" [(ngModel)]="periodoAcademicoId" name="periodoAcademicoId" min="1" (change)="recargar()">
         </div>
       </div>
     </section>
 
-
+    <!-- Tabla de notas -->
     <section class="students-section">
-
       <div class="section-header">
         <span class="section-label">CALIFICACIONES</span>
-        <h2>Lista de estudiantes</h2>
-        <p>Ingresa una calificación entre 0 y 20.</p>
+        <h2>Lista de estudiantes — {{ filas.length }} registros</h2>
+        <p>Ingresa una nota entre 0 y 20 para cada estudiante.</p>
       </div>
 
-
       @if (cargando) {
-        <div class="loading">Cargando notas existentes...</div>
+        <div class="loading">⏳ Cargando estudiantes...</div>
       }
 
       @if (!cargando) {
         <div class="table-card">
           <div class="table-header">
             <span>ESTUDIANTE</span>
-            <span>NOTA (0-20)</span>
+            <span>NOTA (0–20)</span>
             <span>ESTADO</span>
             <span>GUARDADO</span>
           </div>
 
           @for (fila of filas; track fila.estudianteId) {
-            <div class="student-row">
+            <div class="student-row" [class.has-error]="fila.error">
               <div class="student-info">
-                <div class="student-avatar">{{ fila.estudianteId }}</div>
+                <div class="student-avatar">{{ fila.nombreEstudiante.charAt(0) }}</div>
                 <div>
                   <strong>{{ fila.nombreEstudiante }}</strong>
-                  <span>Estudiante</span>
+                  <span>ID: {{ fila.estudianteId }}</span>
+                  @if (fila.error) { <span class="row-error">{{ fila.error }}</span> }
                 </div>
               </div>
 
               <div class="nota-box">
-                <input
-                  type="number"
-                  min="0"
-                  max="20"
+                <input type="number" min="0" max="20" step="0.5"
                   [value]="fila.nota"
-                  (input)="actualizarNota(fila, $event)"
-                />
+                  (input)="actualizarNota(fila, $event)" />
               </div>
 
               <div>
-                <span
-                  class="estado"
-                  [class.aprobado]="fila.nota >= 11"
-                  [class.desaprobado]="fila.nota < 11">
+                <span class="estado" [class.aprobado]="fila.nota >= 11" [class.desaprobado]="fila.nota < 11">
                   {{ fila.nota >= 11 ? 'Aprobado' : 'Desaprobado' }}
                 </span>
               </div>
 
               <div>
-                @if (fila.guardando) {
-                  <span class="guardando-dot">⏳</span>
-                } @else if (fila.guardado) {
-                  <span class="guardado-ok">✅</span>
-                } @else {
-                  <span class="pendiente">•</span>
-                }
+                @if (fila.guardando)       { <span class="guardando-dot">⏳</span> }
+                @else if (fila.guardado)   { <span class="guardado-ok">✅</span> }
+                @else if (fila.error)      { <span class="error-dot">❌</span> }
+                @else                      { <span class="pendiente">•</span> }
               </div>
             </div>
+          }
+
+          @empty {
+            <div class="empty-row">No hay estudiantes registrados en el sistema.</div>
           }
         </div>
 
         <div class="actions">
-          <button
-            class="save-button"
-            type="button"
-            (click)="guardarTodo()"
-            [disabled]="guardandoTodo">
+          <button class="save-button" type="button" (click)="guardarTodo()" [disabled]="guardandoTodo || filas.length === 0">
             {{ guardandoTodo ? '⏳ Guardando...' : '💾 Guardar todas las calificaciones' }}
           </button>
         </div>
       }
-
     </section>
-
 
     <footer>
       <span>Sistema de Gestión y Seguimiento Académico</span>
@@ -193,5 +135,4 @@
     </footer>
 
   </main>
-
 </div>
